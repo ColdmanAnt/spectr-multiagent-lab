@@ -22,7 +22,7 @@ function toast(message) {
 
 function config() {
   const seed = Number($('seed-input')?.value || 42);
-  return { seed: Number.isSafeInteger(seed) && seed >= 1 ? seed : 42,
+  return { seed: Number.isSafeInteger(seed) && seed >= 1 && seed <= 4294967295 ? seed : 42,
     allocation: $('allocation-select')?.value || 'central',
     scenario: $('scenario-select')?.value || 'normal',
     negotiation: $('negotiation-toggle')?.checked ?? true,
@@ -101,7 +101,7 @@ function renderMap() {
     if (r.state === 'moving' && r.path?.length) route = `<polyline points="${r.path.map(p=>`${p.x},${p.y}`).join(' ')}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="5 6" opacity=".45"/>`;
     return `${route}<g role="button" tabindex="0" data-agent="${r.id}" aria-label="${esc(r.name)}" class="map-node"><circle cx="${x}" cy="${y}" r="24" fill="${color}" opacity=".1"/><rect x="${x-13}" y="${y-12}" width="26" height="24" rx="8" fill="${color}" stroke="white" stroke-width="3"/><circle cx="${x-4}" cy="${y-1}" r="2" fill="white"/><circle cx="${x+4}" cy="${y-1}" r="2" fill="white"/><text x="${x}" y="${y+32}" text-anchor="middle" font-size="10" font-weight="600" fill="#53656f">${esc(r.id.toUpperCase())}${task ? ' · '+esc(task.id) : ''}</text></g>`;
   }).join('');
-  $('lab-map').innerHTML = `<svg viewBox="0 0 800 460" role="img" aria-label="План лаборатории: три научные группы, три измерительных установки и два транспортных робота"><defs><pattern id="mapGrid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#dce6e8"/></pattern></defs><rect width="800" height="460" fill="#f5f8f8"/><rect width="800" height="460" fill="url(#mapGrid)"/><path d="M234 107H496M234 237H496M234 367H496M340 107V420" stroke="#e1e9e9" stroke-width="30" fill="none" stroke-linecap="round"/><path d="M234 107H496M234 237H496M234 367H496M340 107V420" stroke="#fff" stroke-width="1.5" stroke-dasharray="5 7" fill="none"/><text x="44" y="32" fill="#8b9a9f" font-size="10" letter-spacing="1.7">ИССЛЕДОВАТЕЛЬСКИЕ ГРУППЫ</text><text x="498" y="32" fill="#8b9a9f" font-size="10" letter-spacing="1.7">ИЗМЕРИТЕЛЬНЫЙ КОМПЛЕКС</text><text x="360" y="436" fill="#8b9a9f" font-size="10">Транспортный коридор</text>${rooms}${equipment}${robots}</svg>`;
+  $('lab-map').innerHTML = `<svg viewBox="0 0 800 460" role="group" aria-label="План лаборатории: три научные группы, три измерительных установки и два транспортных робота"><defs><pattern id="mapGrid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#dce6e8"/></pattern></defs><rect width="800" height="460" fill="#f5f8f8"/><rect width="800" height="460" fill="url(#mapGrid)"/><path d="M234 107H496M234 237H496M234 367H496M340 107V420" stroke="#e1e9e9" stroke-width="30" fill="none" stroke-linecap="round"/><path d="M234 107H496M234 237H496M234 367H496M340 107V420" stroke="#fff" stroke-width="1.5" stroke-dasharray="5 7" fill="none"/><text x="44" y="32" fill="#8b9a9f" font-size="10" letter-spacing="1.7">ИССЛЕДОВАТЕЛЬСКИЕ ГРУППЫ</text><text x="498" y="32" fill="#8b9a9f" font-size="10" letter-spacing="1.7">ИЗМЕРИТЕЛЬНЫЙ КОМПЛЕКС</text><text x="360" y="436" fill="#8b9a9f" font-size="10">Транспортный коридор</text>${rooms}${equipment}${robots}</svg>`;
 }
 
 function renderTasks() {
@@ -113,7 +113,7 @@ function renderTasks() {
 function renderMessages() {
   if (!$('message-list')) return;
   const negotiationTypes = new Set(['OFFER','COUNTER','ACCEPT','REJECT']);
-  const faultTypes = new Set(['REJECT_RESULT','QUALITY_REJECT','LEASE_EXPIRED','REASSIGN','RESTORED','DUPLICATE_ACCEPTED','RESERVATION_EXISTS']);
+  const faultTypes = new Set(['REJECT_RESULT','QUALITY_REJECT','LEASE_EXPIRED','REASSIGN','RESTORED','DUPLICATE_ACCEPTED','RESERVATION_EXISTS','DEFERRED_DUPLICATE_APPLIED']);
   const filtered = state.messages.filter(m => messageFilter === 'all' || (messageFilter === 'fault' ? (m.type.startsWith('FAULT_') || faultTypes.has(m.type)) : negotiationTypes.has(m.type)));
   $('message-list').innerHTML = filtered.length ? filtered.slice(-65).reverse().map(m => `<article class="log-entry log-entry--${esc(m.level)}"><span class="log-time">${String(m.tick).padStart(3,'0')}</span><div><div class="log-route">${esc(names[m.from] || m.from)} <span aria-hidden="true">→</span> ${esc(names[m.to] || m.to)} <span class="log-type">${esc(m.type)}</span></div><div class="log-text">${esc(m.text)}</div></div></article>`).join('') : '<div class="empty-state">В этом фильтре пока нет сообщений. Запустите смену.</div>';
 }
@@ -162,6 +162,7 @@ function render() {
 function showDetail(type,id) {
   const dialog=$('detail-dialog');
   if(!dialog || !$('detail-content')) return;
+  pause();
   let html='';
   const field=(title,value)=>`<div class="detail-item"><span>${esc(title)}</span><p>${esc(Array.isArray(value)?value.join('; '):value)}</p></div>`;
   if(type==='task') {
@@ -171,7 +172,7 @@ function showDetail(type,id) {
     const a=AGENT_INFO.find(a=>a.id===id); if(!a)return;
     html=`<span class="eyebrow">Автономный агент · ${esc(a.id)}</span><h2>${esc(a.name)}</h2><div class="detail-grid">${field('Роль',a.role)}${field('Личная цель',a.goal)}${field('Локальные знания',a.knowledge)}${field('Действия',a.actions)}</div>`;
   }
-  $('detail-content').innerHTML=html.replace('<h2>', '<h2 id="detail-title">');
+  $('detail-content').innerHTML=html.replace('<h2>', '<h2 id="detail-title">') + `<p class="muted">Снимок на такте ${state.tick}. Смена приостановлена.</p>`;
   if(!dialog.open) dialog.showModal();
 }
 
@@ -222,7 +223,7 @@ function renderExperiment() {
 
 function setTab(tab) {
   activeTab=tab;
-  document.querySelectorAll('[data-tab]').forEach(el=>{el.classList.toggle('active',el.dataset.tab===tab);el.setAttribute('aria-selected',String(el.dataset.tab===tab));});
+  document.querySelectorAll('[data-tab]').forEach(el=>{el.classList.toggle('active',el.dataset.tab===tab);el.setAttribute('aria-selected',String(el.dataset.tab===tab));el.tabIndex=el.dataset.tab===tab?0:-1;});
   document.querySelectorAll('[data-panel]').forEach(el=>{el.classList.toggle('active',el.dataset.panel===tab);el.hidden=el.dataset.panel!==tab;});
   const titles={overview:'Центр управления',agents:'Агенты и взаимодействия',experiments:'Исследование механизмов',guide:'Как устроена система'};
   if($('page-title')) $('page-title').textContent=titles[tab]||titles.overview;
@@ -249,6 +250,12 @@ function init() {
     const task=event.target.closest('[data-task]');if(task)showDetail('task',task.dataset.task);
   });
   document.addEventListener('keydown',event=>{
+    if(event.target.matches('[data-tab]') && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Home','End'].includes(event.key)) {
+      event.preventDefault();
+      const tabs=[...document.querySelectorAll('[data-tab]')], current=tabs.indexOf(event.target);
+      const index=event.key==='Home'?0:event.key==='End'?tabs.length-1:(current+(['ArrowDown','ArrowRight'].includes(event.key)?1:tabs.length-1))%tabs.length;
+      setTab(tabs[index].dataset.tab);tabs[index].focus();
+    }
     if((event.key==='Enter'||event.key===' ')&&event.target.matches('svg [data-agent]')){event.preventDefault();showDetail('agent',event.target.dataset.agent);}
   });
   reset();setTab('overview');

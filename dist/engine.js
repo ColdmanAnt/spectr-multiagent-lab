@@ -84,7 +84,7 @@ export function createSimulation(options = {}) {
     messages: [], events: [], metrics: {}, history: [], faults: [],
     scenarioTriggered: false, recoveries: 0, violations: 0, prevented: 0,
     negotiations: 0, negotiationAccepted: 0, negotiationRejected: 0,
-    travelDistance: 0, duplicateAccepted: 0
+    travelDistance: 0, duplicateAccepted: 0, deferredDuplicates: []
   };
   const byTask = id => s.tasks.find(t => t.id === id);
   const byEq = id => s.equipment.find(e => e.id === id);
@@ -318,7 +318,7 @@ export function createSimulation(options = {}) {
         const next = byTask(eq.queue[0]);
         if (next && next.status === 'queued') {
           eq.queue.shift(); eq.taskId = next.id; eq.status = 'busy'; next.status = 'running';
-          next.remaining = next.duration; next.startedTick = s.tick; next.corrupted ||= eq.faulty;
+          next.remaining = next.duration; next.startedTick = s.tick; next.corrupted = eq.faulty;
           emit(eq.id, next.group, 'START', `${next.id}: начало исследования, ${next.duration} тактов.`); event('STARTED', { task: next.id, equipment: eq.id });
         }
       }
@@ -329,7 +329,7 @@ export function createSimulation(options = {}) {
         s.recoveries++; s.prevented++;
         emit('quality', task.group, 'QUALITY_REJECT', `${task.id}: контроль выявил недостоверный результат; назначено повторное исследование.`, 'warning');
         event('QUALITY_REJECT', { task: task.id, equipment: eq.id });
-        // Finish any newly started task consistently before diagnosis; it will also be checked.
+        // Abort a newly started attempt before diagnosis; its next START runs a full fresh measurement.
         eq.faulty = false;
         if (eq.taskId) { const interrupted = byTask(eq.taskId); interrupted.status = 'queued'; interrupted.remaining = 0; eq.queue.unshift(interrupted.id); eq.taskId = null; }
         eq.status = 'offline'; eq.offlineUntil = s.tick + 12;
@@ -370,7 +370,7 @@ export function createSimulation(options = {}) {
       const task = s.tasks.find(t => t.status === 'completed');
       if (!task) {
         fault.description = 'Повтор результата отложен до первого завершённого исследования.';
-        s.deferredDuplicate = true; emit('environment', 'quality', 'FAULT_DUPLICATE', fault.description, 'warning');
+        s.deferredDuplicates.push(s.tick); emit('environment', 'quality', 'FAULT_DUPLICATE', fault.description, 'warning');
       } else {
         fault.description = `${task.id}: повтор сообщения RESULT с тем же идентификатором операции.`;
         emit(task.equipment, 'quality', 'FAULT_DUPLICATE', fault.description, 'danger'); acceptResult(task, { duplicate: true });
@@ -390,7 +390,17 @@ export function createSimulation(options = {}) {
     const trigger = config.scenario === 'duplicate' ? 55 : 35;
     if (!s.scenarioTriggered && config.scenario !== 'normal' && s.tick === trigger) { s.scenarioTriggered = true; injectFault(config.scenario); }
     moveRobots(); workEquipment();
-    if (s.deferredDuplicate && s.tasks.some(t => t.status === 'completed')) { s.deferredDuplicate = false; injectFault('duplicate'); }
+    if (s.deferredDuplicates.length) {
+      const task = s.tasks.find(t => t.status === 'completed');
+      if (task) {
+        const pending = s.deferredDuplicates.splice(0);
+        for (const injectedTick of pending) {
+          emit(task.equipment, 'quality', 'DEFERRED_DUPLICATE', `${task.id}: доставлен повтор RESULT, отложенный на такте ${injectedTick}.`, 'warning');
+          event('DEFERRED_DUPLICATE_APPLIED', { task: task.id, injectedTick });
+          acceptResult(task, { duplicate: true });
+        }
+      }
+    }
     if (config.allocation === 'central') centralAllocation(); else contractAllocation();
     negotiation(); startTransport();
     calculateMetrics();
@@ -427,19 +437,23 @@ export function metricDefinitions() {
 function round(n, digits = 2) { const p = 10 ** digits; return Math.round(n * p) / p; }
 
 export function runExperiment({ seeds = 12, scenario = 'normal', horizon = 180, protection = true } = {}) {
-  const seedList = Array.isArray(seeds) ? seeds.map(Number).filter(Number.isFinite).slice(0, 100) : Array.from({ length: clamp(Math.trunc(Number(seeds) || 12), 1, 100) }, (_, i) => i + 1);
+  const effectiveConfig = normaliseConfig({ scenario, horizon, protection });
+  const seedList = Array.isArray(seeds)
+    ? [...new Set(seeds.map(Number).filter(Number.isFinite).map(seed => Math.trunc(seed) >>> 0))].slice(0, 100)
+    : Array.from({ length: clamp(Math.trunc(Number(seeds) || 12), 1, 100) }, (_, i) => i + 1);
+  if (!seedList.length) throw new RangeError('Эксперимент требует хотя бы одного конечного seed.');
   const rows = [];
   for (const seed of seedList) for (const allocation of ['central', 'contract']) for (const negotiation of [false, true]) {
-    const sim = createSimulation({ seed, allocation, negotiation, protection, scenario, horizon });
+    const sim = createSimulation({ ...effectiveConfig, seed, allocation, negotiation });
     const state = sim.run();
-    rows.push({ seed, allocation, negotiation, protection, scenario: state.config.scenario, horizon: state.horizon, ...state.metrics });
+    rows.push({ ...state.config, ...state.metrics });
   }
   const summary = [];
   for (const allocation of ['central', 'contract']) for (const negotiation of [false, true]) {
     const selected = rows.filter(r => r.allocation === allocation && r.negotiation === negotiation);
-    const record = { allocation, negotiation, protection, scenario, runs: selected.length };
+    const record = { allocation, negotiation, protection: effectiveConfig.protection, scenario: effectiveConfig.scenario, horizon: effectiveConfig.horizon, runs: selected.length };
     for (const key of Object.keys(rows[0] || {}).filter(k => !['seed', 'allocation', 'negotiation', 'protection', 'scenario', 'horizon'].includes(k))) record[key] = round(selected.reduce((n, r) => n + r[key], 0) / (selected.length || 1), 4);
     summary.push(record);
   }
-  return { rows, summary, design: { pairedSeeds: seedList, horizon, protection, scenario, workload: '24 одинаковые заявки на каждый seed во всех четырёх режимах', note: 'Факторный эксперимент 2×2. Условные такты; результаты характеризуют только данную модель.' } };
+  return { rows, summary, design: { pairedSeeds: seedList, horizon: effectiveConfig.horizon, protection: effectiveConfig.protection, scenario: effectiveConfig.scenario, workload: '24 одинаковые заявки на каждый seed во всех четырёх режимах', note: 'Факторный эксперимент 2×2. Условные такты; результаты характеризуют только данную модель.' } };
 }
