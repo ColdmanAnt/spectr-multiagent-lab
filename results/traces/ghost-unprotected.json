@@ -15125,7 +15125,8 @@
     "negotiationAccepted": 6,
     "negotiationRejected": 40,
     "travelDistance": 24494.999999999956,
-    "duplicateAccepted": 0
+    "duplicateAccepted": 0,
+    "deferredDuplicates": []
   },
   "metricDefinitions": {
     "completed": "Принятые сообщения результатов, включая принятые повторы без защиты.",

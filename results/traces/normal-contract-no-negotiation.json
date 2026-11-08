@@ -9229,7 +9229,8 @@
     "negotiationAccepted": 0,
     "negotiationRejected": 0,
     "travelDistance": 25404.999999999964,
-    "duplicateAccepted": 0
+    "duplicateAccepted": 0,
+    "deferredDuplicates": []
   },
   "metricDefinitions": {
     "completed": "Принятые сообщения результатов, включая принятые повторы без защиты.",

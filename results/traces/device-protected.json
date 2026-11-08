@@ -3798,11 +3798,11 @@
     {
       "id": "m354",
       "tick": 99,
-      "from": "quality",
+      "from": "eq2",
       "to": "g2",
-      "type": "QUALITY_REJECT",
-      "text": "T02: контроль выявил недостоверный результат; назначено повторное исследование.",
-      "level": "warning"
+      "type": "RESULT",
+      "text": "T02: результат принят · срок нарушен.",
+      "level": "success"
     },
     {
       "id": "m355",
@@ -3979,27 +3979,27 @@
       "id": "m374",
       "tick": 105,
       "from": "g1",
-      "to": "g2",
+      "to": "g3",
       "type": "OFFER",
-      "text": "T04: уступите слот перед T02; предлагаю 1 кредитов. Моя выгода ≈4.32.",
+      "text": "T13: уступите слот перед T18; предлагаю 1 кредитов. Моя выгода ≈2.16.",
       "level": "warning"
     },
     {
       "id": "m375",
       "tick": 105,
-      "from": "g2",
+      "from": "g3",
       "to": "g1",
       "type": "COUNTER",
-      "text": "Мои потери ≈5.04. Согласен за 7 кредитов.",
+      "text": "Мои потери ≈4.5. Согласен за 6 кредитов.",
       "level": "warning"
     },
     {
       "id": "m376",
       "tick": 105,
       "from": "g1",
-      "to": "g2",
+      "to": "g3",
       "type": "REJECT",
-      "text": "Отказываюсь: цена 7 выше моей выгоды или бюджета. Очередь сохранена.",
+      "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
       "level": "info"
     },
     {
@@ -4068,24 +4068,6 @@
     {
       "id": "m384",
       "tick": 111,
-      "from": "eq2",
-      "to": "all",
-      "type": "RESTORED",
-      "text": "Контрольная проверка завершена, установка доступна.",
-      "level": "success"
-    },
-    {
-      "id": "m385",
-      "tick": 111,
-      "from": "eq2",
-      "to": "g2",
-      "type": "START",
-      "text": "T02: начало исследования, 24 тактов.",
-      "level": "info"
-    },
-    {
-      "id": "m386",
-      "tick": 111,
       "from": "g1",
       "to": "coordinator",
       "type": "REQUEST",
@@ -4093,7 +4075,7 @@
       "level": "info"
     },
     {
-      "id": "m387",
+      "id": "m385",
       "tick": 111,
       "from": "coordinator",
       "to": "r1",
@@ -4102,7 +4084,7 @@
       "level": "info"
     },
     {
-      "id": "m388",
+      "id": "m386",
       "tick": 112,
       "from": "g1",
       "to": "coordinator",
@@ -4111,34 +4093,34 @@
       "level": "info"
     },
     {
-      "id": "m389",
+      "id": "m387",
+      "tick": 112,
+      "from": "g3",
+      "to": "g2",
+      "type": "OFFER",
+      "text": "T18: уступите слот перед T11; предлагаю 1 кредитов. Моя выгода ≈4.32.",
+      "level": "warning"
+    },
+    {
+      "id": "m388",
       "tick": 112,
       "from": "g2",
-      "to": "g1",
-      "type": "OFFER",
-      "text": "T11: уступите слот перед T04; предлагаю 1 кредитов. Моя выгода ≈5.04.",
+      "to": "g3",
+      "type": "COUNTER",
+      "text": "Мои потери ≈2.16. Согласен за 4 кредитов.",
       "level": "warning"
+    },
+    {
+      "id": "m389",
+      "tick": 112,
+      "from": "g3",
+      "to": "g2",
+      "type": "ACCEPT",
+      "text": "Принимаю 4 кредитов: T18 идёт раньше T11.",
+      "level": "success"
     },
     {
       "id": "m390",
-      "tick": 112,
-      "from": "g1",
-      "to": "g2",
-      "type": "COUNTER",
-      "text": "Мои потери ≈4.32. Согласен за 6 кредитов.",
-      "level": "warning"
-    },
-    {
-      "id": "m391",
-      "tick": 112,
-      "from": "g2",
-      "to": "g1",
-      "type": "REJECT",
-      "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
-      "level": "info"
-    },
-    {
-      "id": "m392",
       "tick": 112,
       "from": "g1",
       "to": "g2",
@@ -4147,7 +4129,7 @@
       "level": "warning"
     },
     {
-      "id": "m393",
+      "id": "m391",
       "tick": 112,
       "from": "g2",
       "to": "g1",
@@ -4156,7 +4138,7 @@
       "level": "warning"
     },
     {
-      "id": "m394",
+      "id": "m392",
       "tick": 112,
       "from": "g1",
       "to": "g2",
@@ -4165,8 +4147,26 @@
       "level": "info"
     },
     {
-      "id": "m395",
+      "id": "m393",
       "tick": 113,
+      "from": "g1",
+      "to": "coordinator",
+      "type": "REQUEST",
+      "text": "T22: запрос прибора, срок 109, ценность 50.",
+      "level": "info"
+    },
+    {
+      "id": "m394",
+      "tick": 114,
+      "from": "r2",
+      "to": "eq3",
+      "type": "DELIVERED",
+      "text": "T23: контейнер доставлен, ожидание слота.",
+      "level": "info"
+    },
+    {
+      "id": "m395",
+      "tick": 114,
       "from": "g1",
       "to": "coordinator",
       "type": "REQUEST",
@@ -4176,24 +4176,6 @@
     {
       "id": "m396",
       "tick": 114,
-      "from": "r2",
-      "to": "eq3",
-      "type": "DELIVERED",
-      "text": "T23: контейнер доставлен, ожидание слота.",
-      "level": "info"
-    },
-    {
-      "id": "m397",
-      "tick": 114,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m398",
-      "tick": 114,
       "from": "coordinator",
       "to": "r2",
       "type": "TRANSPORT",
@@ -4201,7 +4183,7 @@
       "level": "info"
     },
     {
-      "id": "m399",
+      "id": "m397",
       "tick": 115,
       "from": "g1",
       "to": "coordinator",
@@ -4210,7 +4192,7 @@
       "level": "info"
     },
     {
-      "id": "m400",
+      "id": "m398",
       "tick": 116,
       "from": "eq3",
       "to": "quality",
@@ -4219,7 +4201,7 @@
       "level": "info"
     },
     {
-      "id": "m401",
+      "id": "m399",
       "tick": 116,
       "from": "eq3",
       "to": "g2",
@@ -4228,7 +4210,7 @@
       "level": "info"
     },
     {
-      "id": "m402",
+      "id": "m400",
       "tick": 116,
       "from": "g1",
       "to": "coordinator",
@@ -4237,7 +4219,7 @@
       "level": "info"
     },
     {
-      "id": "m403",
+      "id": "m401",
       "tick": 117,
       "from": "g1",
       "to": "coordinator",
@@ -4246,7 +4228,7 @@
       "level": "info"
     },
     {
-      "id": "m404",
+      "id": "m402",
       "tick": 118,
       "from": "eq3",
       "to": "g3",
@@ -4255,7 +4237,7 @@
       "level": "success"
     },
     {
-      "id": "m405",
+      "id": "m403",
       "tick": 118,
       "from": "g1",
       "to": "coordinator",
@@ -4264,7 +4246,7 @@
       "level": "info"
     },
     {
-      "id": "m406",
+      "id": "m404",
       "tick": 119,
       "from": "eq1",
       "to": "quality",
@@ -4273,7 +4255,7 @@
       "level": "info"
     },
     {
-      "id": "m407",
+      "id": "m405",
       "tick": 119,
       "from": "eq1",
       "to": "g3",
@@ -4282,7 +4264,7 @@
       "level": "info"
     },
     {
-      "id": "m408",
+      "id": "m406",
       "tick": 119,
       "from": "g1",
       "to": "coordinator",
@@ -4291,7 +4273,7 @@
       "level": "info"
     },
     {
-      "id": "m409",
+      "id": "m407",
       "tick": 119,
       "from": "g1",
       "to": "g2",
@@ -4300,7 +4282,7 @@
       "level": "warning"
     },
     {
-      "id": "m410",
+      "id": "m408",
       "tick": 119,
       "from": "g2",
       "to": "g1",
@@ -4309,7 +4291,7 @@
       "level": "warning"
     },
     {
-      "id": "m411",
+      "id": "m409",
       "tick": 119,
       "from": "g1",
       "to": "g2",
@@ -4318,34 +4300,34 @@
       "level": "info"
     },
     {
-      "id": "m412",
-      "tick": 119,
-      "from": "g3",
-      "to": "g2",
-      "type": "OFFER",
-      "text": "T18: уступите слот перед T11; предлагаю 1 кредитов. Моя выгода ≈4.32.",
-      "level": "warning"
-    },
-    {
-      "id": "m413",
+      "id": "m410",
       "tick": 119,
       "from": "g2",
       "to": "g3",
-      "type": "COUNTER",
-      "text": "Мои потери ≈2.16. Согласен за 4 кредитов.",
+      "type": "OFFER",
+      "text": "T11: уступите слот перед T18; предлагаю 1 кредитов. Моя выгода ≈2.16.",
       "level": "warning"
     },
     {
-      "id": "m414",
+      "id": "m411",
       "tick": 119,
       "from": "g3",
       "to": "g2",
-      "type": "ACCEPT",
-      "text": "Принимаю 4 кредитов: T18 идёт раньше T11.",
-      "level": "success"
+      "type": "COUNTER",
+      "text": "Мои потери ≈4.32. Согласен за 6 кредитов.",
+      "level": "warning"
     },
     {
-      "id": "m415",
+      "id": "m412",
+      "tick": 119,
+      "from": "g2",
+      "to": "g3",
+      "type": "REJECT",
+      "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
+      "level": "info"
+    },
+    {
+      "id": "m413",
       "tick": 120,
       "from": "g1",
       "to": "coordinator",
@@ -4354,7 +4336,7 @@
       "level": "info"
     },
     {
-      "id": "m416",
+      "id": "m414",
       "tick": 121,
       "from": "r1",
       "to": "eq2",
@@ -4363,7 +4345,7 @@
       "level": "info"
     },
     {
-      "id": "m417",
+      "id": "m415",
       "tick": 121,
       "from": "eq1",
       "to": "g3",
@@ -4372,7 +4354,7 @@
       "level": "success"
     },
     {
-      "id": "m418",
+      "id": "m416",
       "tick": 121,
       "from": "g1",
       "to": "coordinator",
@@ -4381,7 +4363,7 @@
       "level": "info"
     },
     {
-      "id": "m419",
+      "id": "m417",
       "tick": 122,
       "from": "g1",
       "to": "coordinator",
@@ -4390,7 +4372,7 @@
       "level": "info"
     },
     {
-      "id": "m420",
+      "id": "m418",
       "tick": 123,
       "from": "g1",
       "to": "coordinator",
@@ -4399,7 +4381,7 @@
       "level": "info"
     },
     {
-      "id": "m421",
+      "id": "m419",
       "tick": 124,
       "from": "g1",
       "to": "coordinator",
@@ -4408,12 +4390,30 @@
       "level": "info"
     },
     {
-      "id": "m422",
+      "id": "m420",
       "tick": 125,
       "from": "r2",
       "to": "eq1",
       "type": "DELIVERED",
       "text": "T19: контейнер доставлен, ожидание слота.",
+      "level": "info"
+    },
+    {
+      "id": "m421",
+      "tick": 125,
+      "from": "eq2",
+      "to": "quality",
+      "type": "MEASURED",
+      "text": "T04: измерение завершено, проверка результата.",
+      "level": "info"
+    },
+    {
+      "id": "m422",
+      "tick": 125,
+      "from": "eq2",
+      "to": "g3",
+      "type": "START",
+      "text": "T18: начало исследования, 12 тактов.",
       "level": "info"
     },
     {
@@ -4427,15 +4427,33 @@
     },
     {
       "id": "m424",
-      "tick": 126,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
+      "tick": 125,
+      "from": "coordinator",
+      "to": "eq2",
+      "type": "ASSIGN",
+      "text": "T22: бронь по ближайшему дедлайну, оценка завершения 233.",
       "level": "info"
     },
     {
       "id": "m425",
+      "tick": 125,
+      "from": "eq2",
+      "to": "g1",
+      "type": "ACK",
+      "text": "T22: бронь подтверждена.",
+      "level": "info"
+    },
+    {
+      "id": "m426",
+      "tick": 125,
+      "from": "coordinator",
+      "to": "r1",
+      "type": "TRANSPORT",
+      "text": "T22: доставить контейнер к eq2.",
+      "level": "info"
+    },
+    {
+      "id": "m427",
       "tick": 126,
       "from": "g1",
       "to": "g2",
@@ -4444,7 +4462,7 @@
       "level": "warning"
     },
     {
-      "id": "m426",
+      "id": "m428",
       "tick": 126,
       "from": "g2",
       "to": "g1",
@@ -4453,7 +4471,7 @@
       "level": "warning"
     },
     {
-      "id": "m427",
+      "id": "m429",
       "tick": 126,
       "from": "g1",
       "to": "g2",
@@ -4462,16 +4480,16 @@
       "level": "info"
     },
     {
-      "id": "m428",
+      "id": "m430",
       "tick": 127,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
+      "from": "eq2",
+      "to": "g1",
+      "type": "RESULT",
+      "text": "T04: результат принят · срок нарушен.",
+      "level": "success"
     },
     {
-      "id": "m429",
+      "id": "m431",
       "tick": 128,
       "from": "eq3",
       "to": "quality",
@@ -4480,30 +4498,12 @@
       "level": "info"
     },
     {
-      "id": "m430",
+      "id": "m432",
       "tick": 128,
       "from": "eq3",
       "to": "g2",
       "type": "START",
       "text": "T23: начало исследования, 12 тактов.",
-      "level": "info"
-    },
-    {
-      "id": "m431",
-      "tick": 128,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m432",
-      "tick": 129,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
       "level": "info"
     },
     {
@@ -4517,33 +4517,6 @@
     },
     {
       "id": "m434",
-      "tick": 130,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m435",
-      "tick": 131,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m436",
-      "tick": 132,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m437",
       "tick": 133,
       "from": "eq1",
       "to": "quality",
@@ -4552,7 +4525,7 @@
       "level": "info"
     },
     {
-      "id": "m438",
+      "id": "m435",
       "tick": 133,
       "from": "eq1",
       "to": "g2",
@@ -4561,70 +4534,34 @@
       "level": "info"
     },
     {
-      "id": "m439",
-      "tick": 133,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m440",
+      "id": "m436",
       "tick": 133,
       "from": "g2",
-      "to": "g3",
+      "to": "g1",
       "type": "OFFER",
-      "text": "T11: уступите слот перед T18; предлагаю 1 кредитов. Моя выгода ≈2.16.",
+      "text": "T20: уступите слот перед T13; предлагаю 1 кредитов. Моя выгода ≈4.5.",
       "level": "warning"
     },
     {
-      "id": "m441",
+      "id": "m437",
       "tick": 133,
-      "from": "g3",
+      "from": "g1",
       "to": "g2",
       "type": "COUNTER",
-      "text": "Мои потери ≈4.32. Согласен за 6 кредитов.",
+      "text": "Мои потери ≈3.6. Согласен за 5 кредитов.",
       "level": "warning"
     },
     {
-      "id": "m442",
+      "id": "m438",
       "tick": 133,
       "from": "g2",
-      "to": "g3",
-      "type": "REJECT",
-      "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
-      "level": "info"
-    },
-    {
-      "id": "m443",
-      "tick": 134,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m444",
-      "tick": 135,
-      "from": "eq2",
-      "to": "quality",
-      "type": "MEASURED",
-      "text": "T02: измерение завершено, проверка результата.",
-      "level": "info"
-    },
-    {
-      "id": "m445",
-      "tick": 135,
-      "from": "eq2",
       "to": "g1",
-      "type": "START",
-      "text": "T04: начало исследования, 28 тактов.",
+      "type": "REJECT",
+      "text": "Отказываюсь: цена 5 выше моей выгоды или бюджета. Очередь сохранена.",
       "level": "info"
     },
     {
-      "id": "m446",
+      "id": "m439",
       "tick": 135,
       "from": "eq1",
       "to": "g3",
@@ -4633,61 +4570,43 @@
       "level": "success"
     },
     {
-      "id": "m447",
-      "tick": 135,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m448",
+      "id": "m440",
       "tick": 136,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
+      "from": "r1",
+      "to": "eq2",
+      "type": "DELIVERED",
+      "text": "T22: контейнер доставлен, ожидание слота.",
       "level": "info"
     },
     {
-      "id": "m449",
+      "id": "m441",
+      "tick": 137,
+      "from": "eq2",
+      "to": "quality",
+      "type": "MEASURED",
+      "text": "T18: измерение завершено, проверка результата.",
+      "level": "info"
+    },
+    {
+      "id": "m442",
       "tick": 137,
       "from": "eq2",
       "to": "g2",
+      "type": "START",
+      "text": "T11: начало исследования, 24 тактов.",
+      "level": "info"
+    },
+    {
+      "id": "m443",
+      "tick": 139,
+      "from": "eq2",
+      "to": "g3",
       "type": "RESULT",
-      "text": "T02: результат принят · срок нарушен.",
+      "text": "T18: результат принят · срок нарушен.",
       "level": "success"
     },
     {
-      "id": "m450",
-      "tick": 137,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m451",
-      "tick": 138,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m452",
-      "tick": 139,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m453",
+      "id": "m444",
       "tick": 140,
       "from": "eq3",
       "to": "quality",
@@ -4696,7 +4615,7 @@
       "level": "info"
     },
     {
-      "id": "m454",
+      "id": "m445",
       "tick": 140,
       "from": "eq3",
       "to": "g1",
@@ -4705,52 +4624,34 @@
       "level": "info"
     },
     {
-      "id": "m455",
-      "tick": 140,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m456",
-      "tick": 140,
-      "from": "g2",
-      "to": "g1",
-      "type": "OFFER",
-      "text": "T20: уступите слот перед T13; предлагаю 1 кредитов. Моя выгода ≈4.5.",
-      "level": "warning"
-    },
-    {
-      "id": "m457",
+      "id": "m446",
       "tick": 140,
       "from": "g1",
       "to": "g2",
+      "type": "OFFER",
+      "text": "T22: уступите слот перед T20; предлагаю 1 кредитов. Моя выгода ≈3.6.",
+      "level": "warning"
+    },
+    {
+      "id": "m447",
+      "tick": 140,
+      "from": "g2",
+      "to": "g1",
       "type": "COUNTER",
       "text": "Мои потери ≈3.6. Согласен за 5 кредитов.",
       "level": "warning"
     },
     {
-      "id": "m458",
+      "id": "m448",
       "tick": 140,
-      "from": "g2",
-      "to": "g1",
+      "from": "g1",
+      "to": "g2",
       "type": "REJECT",
       "text": "Отказываюсь: цена 5 выше моей выгоды или бюджета. Очередь сохранена.",
       "level": "info"
     },
     {
-      "id": "m459",
-      "tick": 141,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m460",
+      "id": "m449",
       "tick": 142,
       "from": "eq3",
       "to": "g2",
@@ -4759,187 +4660,34 @@
       "level": "success"
     },
     {
-      "id": "m461",
-      "tick": 142,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m462",
-      "tick": 143,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m463",
-      "tick": 144,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m464",
-      "tick": 145,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m465",
-      "tick": 146,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m466",
-      "tick": 147,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m467",
-      "tick": 147,
-      "from": "g1",
-      "to": "g2",
-      "type": "OFFER",
-      "text": "T13: уступите слот перед T11; предлагаю 1 кредитов. Моя выгода ≈4.32.",
-      "level": "warning"
-    },
-    {
-      "id": "m468",
-      "tick": 147,
+      "id": "m450",
+      "tick": 154,
       "from": "g2",
       "to": "g1",
-      "type": "COUNTER",
-      "text": "Мои потери ≈4.5. Согласен за 6 кредитов.",
-      "level": "warning"
-    },
-    {
-      "id": "m469",
-      "tick": 147,
-      "from": "g1",
-      "to": "g2",
-      "type": "REJECT",
-      "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
-      "level": "info"
-    },
-    {
-      "id": "m470",
-      "tick": 148,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m471",
-      "tick": 149,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m472",
-      "tick": 150,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m473",
-      "tick": 151,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m474",
-      "tick": 152,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m475",
-      "tick": 153,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m476",
-      "tick": 154,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m477",
-      "tick": 154,
-      "from": "g2",
-      "to": "g3",
       "type": "OFFER",
-      "text": "T11: уступите слот перед T18; предлагаю 1 кредитов. Моя выгода ≈2.16.",
+      "text": "T20: уступите слот перед T13; предлагаю 1 кредитов. Моя выгода ≈4.5.",
       "level": "warning"
     },
     {
-      "id": "m478",
+      "id": "m451",
       "tick": 154,
-      "from": "g3",
+      "from": "g1",
       "to": "g2",
       "type": "COUNTER",
-      "text": "Мои потери ≈4.32. Согласен за 6 кредитов.",
+      "text": "Мои потери ≈3.6. Согласен за 5 кредитов.",
       "level": "warning"
     },
     {
-      "id": "m479",
+      "id": "m452",
       "tick": 154,
       "from": "g2",
-      "to": "g3",
+      "to": "g1",
       "type": "REJECT",
-      "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
+      "text": "Отказываюсь: цена 5 выше моей выгоды или бюджета. Очередь сохранена.",
       "level": "info"
     },
     {
-      "id": "m480",
-      "tick": 155,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m481",
+      "id": "m453",
       "tick": 156,
       "from": "eq1",
       "to": "quality",
@@ -4948,7 +4696,7 @@
       "level": "info"
     },
     {
-      "id": "m482",
+      "id": "m454",
       "tick": 156,
       "from": "eq1",
       "to": "g1",
@@ -4957,25 +4705,7 @@
       "level": "info"
     },
     {
-      "id": "m483",
-      "tick": 156,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m484",
-      "tick": 157,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m485",
+      "id": "m455",
       "tick": 158,
       "from": "eq1",
       "to": "g2",
@@ -4984,133 +4714,61 @@
       "level": "success"
     },
     {
-      "id": "m486",
-      "tick": 158,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m487",
-      "tick": 159,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m488",
-      "tick": 160,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m489",
+      "id": "m456",
       "tick": 161,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
+      "from": "eq2",
+      "to": "quality",
+      "type": "MEASURED",
+      "text": "T11: измерение завершено, проверка результата.",
       "level": "info"
     },
     {
-      "id": "m490",
+      "id": "m457",
       "tick": 161,
-      "from": "g2",
+      "from": "eq2",
       "to": "g1",
-      "type": "OFFER",
-      "text": "T20: уступите слот перед T13; предлагаю 1 кредитов. Моя выгода ≈4.5.",
-      "level": "warning"
+      "type": "START",
+      "text": "T13: начало исследования, 25 тактов.",
+      "level": "info"
     },
     {
-      "id": "m491",
+      "id": "m458",
       "tick": 161,
       "from": "g1",
       "to": "g2",
+      "type": "OFFER",
+      "text": "T22: уступите слот перед T20; предлагаю 1 кредитов. Моя выгода ≈3.6.",
+      "level": "warning"
+    },
+    {
+      "id": "m459",
+      "tick": 161,
+      "from": "g2",
+      "to": "g1",
       "type": "COUNTER",
       "text": "Мои потери ≈3.6. Согласен за 5 кредитов.",
       "level": "warning"
     },
     {
-      "id": "m492",
+      "id": "m460",
       "tick": 161,
-      "from": "g2",
-      "to": "g1",
+      "from": "g1",
+      "to": "g2",
       "type": "REJECT",
       "text": "Отказываюсь: цена 5 выше моей выгоды или бюджета. Очередь сохранена.",
       "level": "info"
     },
     {
-      "id": "m493",
-      "tick": 162,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m494",
+      "id": "m461",
       "tick": 163,
       "from": "eq2",
-      "to": "quality",
-      "type": "MEASURED",
-      "text": "T04: измерение завершено, проверка результата.",
-      "level": "info"
+      "to": "g2",
+      "type": "RESULT",
+      "text": "T11: результат принят · срок нарушен.",
+      "level": "success"
     },
     {
-      "id": "m495",
-      "tick": 163,
-      "from": "eq2",
-      "to": "g3",
-      "type": "START",
-      "text": "T18: начало исследования, 12 тактов.",
-      "level": "info"
-    },
-    {
-      "id": "m496",
-      "tick": 163,
-      "from": "g1",
-      "to": "coordinator",
-      "type": "REQUEST",
-      "text": "T22: запрос прибора, срок 109, ценность 50.",
-      "level": "info"
-    },
-    {
-      "id": "m497",
-      "tick": 163,
-      "from": "coordinator",
-      "to": "eq2",
-      "type": "ASSIGN",
-      "text": "T22: бронь по ближайшему дедлайну, оценка завершения 271.",
-      "level": "info"
-    },
-    {
-      "id": "m498",
-      "tick": 163,
-      "from": "eq2",
-      "to": "g1",
-      "type": "ACK",
-      "text": "T22: бронь подтверждена.",
-      "level": "info"
-    },
-    {
-      "id": "m499",
-      "tick": 163,
-      "from": "coordinator",
-      "to": "r1",
-      "type": "TRANSPORT",
-      "text": "T22: доставить контейнер к eq2.",
-      "level": "info"
-    },
-    {
-      "id": "m500",
+      "id": "m462",
       "tick": 164,
       "from": "eq3",
       "to": "quality",
@@ -5119,16 +4777,7 @@
       "level": "info"
     },
     {
-      "id": "m501",
-      "tick": 165,
-      "from": "eq2",
-      "to": "g1",
-      "type": "RESULT",
-      "text": "T04: результат принят · срок нарушен.",
-      "level": "success"
-    },
-    {
-      "id": "m502",
+      "id": "m463",
       "tick": 166,
       "from": "eq3",
       "to": "g1",
@@ -5137,97 +4786,7 @@
       "level": "success"
     },
     {
-      "id": "m503",
-      "tick": 168,
-      "from": "g1",
-      "to": "g2",
-      "type": "OFFER",
-      "text": "T13: уступите слот перед T11; предлагаю 1 кредитов. Моя выгода ≈4.32.",
-      "level": "warning"
-    },
-    {
-      "id": "m504",
-      "tick": 168,
-      "from": "g2",
-      "to": "g1",
-      "type": "COUNTER",
-      "text": "Мои потери ≈4.5. Согласен за 6 кредитов.",
-      "level": "warning"
-    },
-    {
-      "id": "m505",
-      "tick": 168,
-      "from": "g1",
-      "to": "g2",
-      "type": "REJECT",
-      "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
-      "level": "info"
-    },
-    {
-      "id": "m506",
-      "tick": 174,
-      "from": "r1",
-      "to": "eq2",
-      "type": "DELIVERED",
-      "text": "T22: контейнер доставлен, ожидание слота.",
-      "level": "info"
-    },
-    {
-      "id": "m507",
-      "tick": 175,
-      "from": "eq2",
-      "to": "quality",
-      "type": "MEASURED",
-      "text": "T18: измерение завершено, проверка результата.",
-      "level": "info"
-    },
-    {
-      "id": "m508",
-      "tick": 175,
-      "from": "eq2",
-      "to": "g2",
-      "type": "START",
-      "text": "T11: начало исследования, 24 тактов.",
-      "level": "info"
-    },
-    {
-      "id": "m509",
-      "tick": 175,
-      "from": "g1",
-      "to": "g2",
-      "type": "OFFER",
-      "text": "T22: уступите слот перед T20; предлагаю 1 кредитов. Моя выгода ≈3.6.",
-      "level": "warning"
-    },
-    {
-      "id": "m510",
-      "tick": 175,
-      "from": "g2",
-      "to": "g1",
-      "type": "COUNTER",
-      "text": "Мои потери ≈3.6. Согласен за 5 кредитов.",
-      "level": "warning"
-    },
-    {
-      "id": "m511",
-      "tick": 175,
-      "from": "g1",
-      "to": "g2",
-      "type": "REJECT",
-      "text": "Отказываюсь: цена 5 выше моей выгоды или бюджета. Очередь сохранена.",
-      "level": "info"
-    },
-    {
-      "id": "m512",
-      "tick": 177,
-      "from": "eq2",
-      "to": "g3",
-      "type": "RESULT",
-      "text": "T18: результат принят · срок нарушен.",
-      "level": "success"
-    },
-    {
-      "id": "m513",
+      "id": "m464",
       "tick": 178,
       "from": "eq1",
       "to": "quality",
@@ -5236,7 +4795,7 @@
       "level": "info"
     },
     {
-      "id": "m514",
+      "id": "m465",
       "tick": 180,
       "from": "eq1",
       "to": "g1",
@@ -5245,12 +4804,12 @@
       "level": "success"
     },
     {
-      "id": "m515",
+      "id": "m466",
       "tick": 180,
       "from": "coordinator",
       "to": "all",
       "type": "SHIFT_END",
-      "text": "Смена завершена: подтверждено 20/24 исследований.",
+      "text": "Смена завершена: подтверждено 21/24 исследований.",
       "level": "success"
     }
   ],
@@ -5852,9 +5411,10 @@
     },
     {
       "task": "T02",
-      "equipment": "eq2",
+      "actualValid": true,
+      "forged": false,
       "tick": 99,
-      "type": "QUALITY_REJECT"
+      "type": "RESULT_ACCEPTED"
     },
     {
       "task": "T21",
@@ -5915,17 +5475,21 @@
       "type": "DELIVERED"
     },
     {
-      "task": "T02",
-      "equipment": "eq2",
-      "tick": 111,
-      "type": "STARTED"
-    },
-    {
       "task": "T20",
       "robot": "r1",
       "equipment": "eq2",
       "tick": 111,
       "type": "TRANSPORT_STARTED"
+    },
+    {
+      "equipment": "eq2",
+      "buyer": "g3",
+      "seller": "g2",
+      "task": "T18",
+      "displaced": "T11",
+      "credits": 4,
+      "tick": 112,
+      "type": "SLOT_SWAP"
     },
     {
       "task": "T23",
@@ -5960,16 +5524,6 @@
       "type": "STARTED"
     },
     {
-      "equipment": "eq2",
-      "buyer": "g3",
-      "seller": "g2",
-      "task": "T18",
-      "displaced": "T11",
-      "credits": 4,
-      "tick": 119,
-      "type": "SLOT_SWAP"
-    },
-    {
       "task": "T20",
       "robot": "r1",
       "tick": 121,
@@ -5987,6 +5541,33 @@
       "robot": "r2",
       "tick": 125,
       "type": "DELIVERED"
+    },
+    {
+      "task": "T18",
+      "equipment": "eq2",
+      "tick": 125,
+      "type": "STARTED"
+    },
+    {
+      "task": "T22",
+      "equipment": "eq2",
+      "group": "g1",
+      "tick": 125,
+      "type": "ASSIGNED"
+    },
+    {
+      "task": "T22",
+      "robot": "r1",
+      "equipment": "eq2",
+      "tick": 125,
+      "type": "TRANSPORT_STARTED"
+    },
+    {
+      "task": "T04",
+      "actualValid": true,
+      "forged": false,
+      "tick": 127,
+      "type": "RESULT_ACCEPTED"
     },
     {
       "task": "T23",
@@ -6008,12 +5589,6 @@
       "type": "STARTED"
     },
     {
-      "task": "T04",
-      "equipment": "eq2",
-      "tick": 135,
-      "type": "STARTED"
-    },
-    {
       "task": "T24",
       "actualValid": true,
       "forged": false,
@@ -6021,10 +5596,22 @@
       "type": "RESULT_ACCEPTED"
     },
     {
-      "task": "T02",
+      "task": "T22",
+      "robot": "r1",
+      "tick": 136,
+      "type": "DELIVERED"
+    },
+    {
+      "task": "T11",
+      "equipment": "eq2",
+      "tick": 137,
+      "type": "STARTED"
+    },
+    {
+      "task": "T18",
       "actualValid": true,
       "forged": false,
-      "tick": 137,
+      "tick": 139,
       "type": "RESULT_ACCEPTED"
     },
     {
@@ -6054,30 +5641,16 @@
       "type": "RESULT_ACCEPTED"
     },
     {
-      "task": "T18",
+      "task": "T13",
       "equipment": "eq2",
-      "tick": 163,
+      "tick": 161,
       "type": "STARTED"
     },
     {
-      "task": "T22",
-      "equipment": "eq2",
-      "group": "g1",
-      "tick": 163,
-      "type": "ASSIGNED"
-    },
-    {
-      "task": "T22",
-      "robot": "r1",
-      "equipment": "eq2",
-      "tick": 163,
-      "type": "TRANSPORT_STARTED"
-    },
-    {
-      "task": "T04",
+      "task": "T11",
       "actualValid": true,
       "forged": false,
-      "tick": 165,
+      "tick": 163,
       "type": "RESULT_ACCEPTED"
     },
     {
@@ -6085,25 +5658,6 @@
       "actualValid": true,
       "forged": false,
       "tick": 166,
-      "type": "RESULT_ACCEPTED"
-    },
-    {
-      "task": "T22",
-      "robot": "r1",
-      "tick": 174,
-      "type": "DELIVERED"
-    },
-    {
-      "task": "T11",
-      "equipment": "eq2",
-      "tick": 175,
-      "type": "STARTED"
-    },
-    {
-      "task": "T18",
-      "actualValid": true,
-      "forged": false,
-      "tick": 177,
       "type": "RESULT_ACCEPTED"
     },
     {
@@ -6115,26 +5669,26 @@
     },
     {
       "metrics": {
-        "completed": 20,
-        "validCompleted": 20,
-        "late": 17,
+        "completed": 21,
+        "validCompleted": 21,
+        "late": 18,
         "onTime": 3,
-        "messages": 515,
-        "utility": 81.05,
-        "fairness": 0.9804,
-        "utilization": 0.7889,
-        "meanWait": 75.52,
-        "recoveries": 2,
+        "messages": 466,
+        "utility": 95.58,
+        "fairness": 0.9866,
+        "utilization": 0.8111,
+        "meanWait": 71.23,
+        "recoveries": 1,
         "violations": 0,
         "undetected": 0,
         "badResults": 0,
-        "prevented": 2,
-        "negotiations": 44,
+        "prevented": 1,
+        "negotiations": 41,
         "negotiationAccepted": 7,
-        "negotiationRejected": 37,
+        "negotiationRejected": 34,
         "travelDistance": 27355,
-        "coordinationCost": 515,
-        "completionRate": 0.8333
+        "coordinationCost": 466,
+        "completionRate": 0.875
       },
       "tick": 180,
       "type": "SHIFT_END"
@@ -6196,15 +5750,15 @@
         "robot": "r2",
         "remaining": 0,
         "assignedTick": 2,
-        "startedTick": 111,
-        "finishedTick": 137,
+        "startedTick": 73,
+        "finishedTick": 99,
         "delivered": true,
         "actualValid": true,
         "acceptedCount": 1,
-        "retries": 1,
+        "retries": 0,
         "corrupted": false,
         "negotiatedAt": 42,
-        "verifyAt": 137
+        "verifyAt": 99
       },
       {
         "id": "T03",
@@ -6248,15 +5802,15 @@
         "robot": "r1",
         "remaining": 0,
         "assignedTick": 2,
-        "startedTick": 135,
-        "finishedTick": 165,
+        "startedTick": 97,
+        "finishedTick": 127,
         "delivered": true,
         "actualValid": true,
         "acceptedCount": 1,
         "retries": 0,
         "corrupted": false,
-        "negotiatedAt": 105,
-        "verifyAt": 165
+        "negotiatedAt": 70,
+        "verifyAt": 127
       },
       {
         "id": "T05",
@@ -6428,18 +5982,19 @@
         "deadline": 61,
         "value": 41,
         "release": 24,
-        "status": "running",
+        "status": "completed",
         "robot": "r2",
-        "remaining": 19,
+        "remaining": 0,
         "assignedTick": 24,
-        "startedTick": 175,
-        "finishedTick": null,
+        "startedTick": 137,
+        "finishedTick": 163,
         "delivered": true,
-        "actualValid": null,
-        "acceptedCount": 0,
+        "actualValid": true,
+        "acceptedCount": 1,
         "retries": 0,
         "corrupted": false,
-        "negotiatedAt": 154
+        "negotiatedAt": 119,
+        "verifyAt": 163
       },
       {
         "id": "T12",
@@ -6480,18 +6035,18 @@
         "deadline": 85,
         "value": 45,
         "release": 28,
-        "status": "queued",
+        "status": "running",
         "robot": "r2",
-        "remaining": 0,
+        "remaining": 6,
         "assignedTick": 28,
-        "startedTick": null,
+        "startedTick": 161,
         "finishedTick": null,
         "delivered": true,
         "actualValid": null,
         "acceptedCount": 0,
         "retries": 0,
         "corrupted": false,
-        "negotiatedAt": 168
+        "negotiatedAt": 126
       },
       {
         "id": "T14",
@@ -6614,15 +6169,15 @@
         "robot": "r2",
         "remaining": 0,
         "assignedTick": 35,
-        "startedTick": 163,
-        "finishedTick": 177,
+        "startedTick": 125,
+        "finishedTick": 139,
         "delivered": true,
         "actualValid": true,
         "acceptedCount": 1,
         "retries": 0,
         "corrupted": false,
-        "negotiatedAt": 119,
-        "verifyAt": 177
+        "negotiatedAt": 112,
+        "verifyAt": 139
       },
       {
         "id": "T19",
@@ -6673,7 +6228,7 @@
         "acceptedCount": 0,
         "retries": 0,
         "corrupted": false,
-        "negotiatedAt": 161
+        "negotiatedAt": 154
       },
       {
         "id": "T21",
@@ -6717,7 +6272,7 @@
         "status": "queued",
         "robot": "r1",
         "remaining": 0,
-        "assignedTick": 163,
+        "assignedTick": 125,
         "startedTick": null,
         "finishedTick": null,
         "delivered": true,
@@ -6725,7 +6280,7 @@
         "acceptedCount": 0,
         "retries": 0,
         "corrupted": false,
-        "negotiatedAt": 175
+        "negotiatedAt": 161
       },
       {
         "id": "T23",
@@ -6800,16 +6355,15 @@
         "x": 580,
         "y": 230,
         "status": "busy",
-        "taskId": "T11",
+        "taskId": "T13",
         "queue": [
-          "T13",
           "T20",
           "T22"
         ],
         "faulty": false,
-        "offlineUntil": 111,
+        "offlineUntil": 49,
         "ghost": null,
-        "busyTicks": 145
+        "busyTicks": 157
       },
       {
         "id": "eq3",
@@ -6937,8 +6491,8 @@
         "credits": 69,
         "completed": 6,
         "total": 8,
-        "utility": 42.5,
-        "wait": 77.5
+        "utility": 49.34,
+        "wait": 71.17
       },
       {
         "id": "g2",
@@ -6947,10 +6501,10 @@
         "y": 230,
         "goal": "Срочные исследования",
         "credits": 82,
-        "completed": 6,
+        "completed": 7,
         "total": 8,
-        "utility": 32.89,
-        "wait": 68.67
+        "utility": 33.74,
+        "wait": 69.57
       },
       {
         "id": "g3",
@@ -6961,8 +6515,8 @@
         "credits": 89,
         "completed": 8,
         "total": 8,
-        "utility": 5.66,
-        "wait": 69.75
+        "utility": 12.5,
+        "wait": 65
       }
     ],
     "messages": [
@@ -10146,11 +9700,11 @@
       {
         "id": "m354",
         "tick": 99,
-        "from": "quality",
+        "from": "eq2",
         "to": "g2",
-        "type": "QUALITY_REJECT",
-        "text": "T02: контроль выявил недостоверный результат; назначено повторное исследование.",
-        "level": "warning"
+        "type": "RESULT",
+        "text": "T02: результат принят · срок нарушен.",
+        "level": "success"
       },
       {
         "id": "m355",
@@ -10327,27 +9881,27 @@
         "id": "m374",
         "tick": 105,
         "from": "g1",
-        "to": "g2",
+        "to": "g3",
         "type": "OFFER",
-        "text": "T04: уступите слот перед T02; предлагаю 1 кредитов. Моя выгода ≈4.32.",
+        "text": "T13: уступите слот перед T18; предлагаю 1 кредитов. Моя выгода ≈2.16.",
         "level": "warning"
       },
       {
         "id": "m375",
         "tick": 105,
-        "from": "g2",
+        "from": "g3",
         "to": "g1",
         "type": "COUNTER",
-        "text": "Мои потери ≈5.04. Согласен за 7 кредитов.",
+        "text": "Мои потери ≈4.5. Согласен за 6 кредитов.",
         "level": "warning"
       },
       {
         "id": "m376",
         "tick": 105,
         "from": "g1",
-        "to": "g2",
+        "to": "g3",
         "type": "REJECT",
-        "text": "Отказываюсь: цена 7 выше моей выгоды или бюджета. Очередь сохранена.",
+        "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
         "level": "info"
       },
       {
@@ -10416,24 +9970,6 @@
       {
         "id": "m384",
         "tick": 111,
-        "from": "eq2",
-        "to": "all",
-        "type": "RESTORED",
-        "text": "Контрольная проверка завершена, установка доступна.",
-        "level": "success"
-      },
-      {
-        "id": "m385",
-        "tick": 111,
-        "from": "eq2",
-        "to": "g2",
-        "type": "START",
-        "text": "T02: начало исследования, 24 тактов.",
-        "level": "info"
-      },
-      {
-        "id": "m386",
-        "tick": 111,
         "from": "g1",
         "to": "coordinator",
         "type": "REQUEST",
@@ -10441,7 +9977,7 @@
         "level": "info"
       },
       {
-        "id": "m387",
+        "id": "m385",
         "tick": 111,
         "from": "coordinator",
         "to": "r1",
@@ -10450,7 +9986,7 @@
         "level": "info"
       },
       {
-        "id": "m388",
+        "id": "m386",
         "tick": 112,
         "from": "g1",
         "to": "coordinator",
@@ -10459,34 +9995,34 @@
         "level": "info"
       },
       {
-        "id": "m389",
+        "id": "m387",
+        "tick": 112,
+        "from": "g3",
+        "to": "g2",
+        "type": "OFFER",
+        "text": "T18: уступите слот перед T11; предлагаю 1 кредитов. Моя выгода ≈4.32.",
+        "level": "warning"
+      },
+      {
+        "id": "m388",
         "tick": 112,
         "from": "g2",
-        "to": "g1",
-        "type": "OFFER",
-        "text": "T11: уступите слот перед T04; предлагаю 1 кредитов. Моя выгода ≈5.04.",
+        "to": "g3",
+        "type": "COUNTER",
+        "text": "Мои потери ≈2.16. Согласен за 4 кредитов.",
         "level": "warning"
+      },
+      {
+        "id": "m389",
+        "tick": 112,
+        "from": "g3",
+        "to": "g2",
+        "type": "ACCEPT",
+        "text": "Принимаю 4 кредитов: T18 идёт раньше T11.",
+        "level": "success"
       },
       {
         "id": "m390",
-        "tick": 112,
-        "from": "g1",
-        "to": "g2",
-        "type": "COUNTER",
-        "text": "Мои потери ≈4.32. Согласен за 6 кредитов.",
-        "level": "warning"
-      },
-      {
-        "id": "m391",
-        "tick": 112,
-        "from": "g2",
-        "to": "g1",
-        "type": "REJECT",
-        "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
-        "level": "info"
-      },
-      {
-        "id": "m392",
         "tick": 112,
         "from": "g1",
         "to": "g2",
@@ -10495,7 +10031,7 @@
         "level": "warning"
       },
       {
-        "id": "m393",
+        "id": "m391",
         "tick": 112,
         "from": "g2",
         "to": "g1",
@@ -10504,7 +10040,7 @@
         "level": "warning"
       },
       {
-        "id": "m394",
+        "id": "m392",
         "tick": 112,
         "from": "g1",
         "to": "g2",
@@ -10513,8 +10049,26 @@
         "level": "info"
       },
       {
-        "id": "m395",
+        "id": "m393",
         "tick": 113,
+        "from": "g1",
+        "to": "coordinator",
+        "type": "REQUEST",
+        "text": "T22: запрос прибора, срок 109, ценность 50.",
+        "level": "info"
+      },
+      {
+        "id": "m394",
+        "tick": 114,
+        "from": "r2",
+        "to": "eq3",
+        "type": "DELIVERED",
+        "text": "T23: контейнер доставлен, ожидание слота.",
+        "level": "info"
+      },
+      {
+        "id": "m395",
+        "tick": 114,
         "from": "g1",
         "to": "coordinator",
         "type": "REQUEST",
@@ -10524,24 +10078,6 @@
       {
         "id": "m396",
         "tick": 114,
-        "from": "r2",
-        "to": "eq3",
-        "type": "DELIVERED",
-        "text": "T23: контейнер доставлен, ожидание слота.",
-        "level": "info"
-      },
-      {
-        "id": "m397",
-        "tick": 114,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m398",
-        "tick": 114,
         "from": "coordinator",
         "to": "r2",
         "type": "TRANSPORT",
@@ -10549,7 +10085,7 @@
         "level": "info"
       },
       {
-        "id": "m399",
+        "id": "m397",
         "tick": 115,
         "from": "g1",
         "to": "coordinator",
@@ -10558,7 +10094,7 @@
         "level": "info"
       },
       {
-        "id": "m400",
+        "id": "m398",
         "tick": 116,
         "from": "eq3",
         "to": "quality",
@@ -10567,7 +10103,7 @@
         "level": "info"
       },
       {
-        "id": "m401",
+        "id": "m399",
         "tick": 116,
         "from": "eq3",
         "to": "g2",
@@ -10576,7 +10112,7 @@
         "level": "info"
       },
       {
-        "id": "m402",
+        "id": "m400",
         "tick": 116,
         "from": "g1",
         "to": "coordinator",
@@ -10585,7 +10121,7 @@
         "level": "info"
       },
       {
-        "id": "m403",
+        "id": "m401",
         "tick": 117,
         "from": "g1",
         "to": "coordinator",
@@ -10594,7 +10130,7 @@
         "level": "info"
       },
       {
-        "id": "m404",
+        "id": "m402",
         "tick": 118,
         "from": "eq3",
         "to": "g3",
@@ -10603,7 +10139,7 @@
         "level": "success"
       },
       {
-        "id": "m405",
+        "id": "m403",
         "tick": 118,
         "from": "g1",
         "to": "coordinator",
@@ -10612,7 +10148,7 @@
         "level": "info"
       },
       {
-        "id": "m406",
+        "id": "m404",
         "tick": 119,
         "from": "eq1",
         "to": "quality",
@@ -10621,7 +10157,7 @@
         "level": "info"
       },
       {
-        "id": "m407",
+        "id": "m405",
         "tick": 119,
         "from": "eq1",
         "to": "g3",
@@ -10630,7 +10166,7 @@
         "level": "info"
       },
       {
-        "id": "m408",
+        "id": "m406",
         "tick": 119,
         "from": "g1",
         "to": "coordinator",
@@ -10639,7 +10175,7 @@
         "level": "info"
       },
       {
-        "id": "m409",
+        "id": "m407",
         "tick": 119,
         "from": "g1",
         "to": "g2",
@@ -10648,7 +10184,7 @@
         "level": "warning"
       },
       {
-        "id": "m410",
+        "id": "m408",
         "tick": 119,
         "from": "g2",
         "to": "g1",
@@ -10657,7 +10193,7 @@
         "level": "warning"
       },
       {
-        "id": "m411",
+        "id": "m409",
         "tick": 119,
         "from": "g1",
         "to": "g2",
@@ -10666,34 +10202,34 @@
         "level": "info"
       },
       {
-        "id": "m412",
-        "tick": 119,
-        "from": "g3",
-        "to": "g2",
-        "type": "OFFER",
-        "text": "T18: уступите слот перед T11; предлагаю 1 кредитов. Моя выгода ≈4.32.",
-        "level": "warning"
-      },
-      {
-        "id": "m413",
+        "id": "m410",
         "tick": 119,
         "from": "g2",
         "to": "g3",
-        "type": "COUNTER",
-        "text": "Мои потери ≈2.16. Согласен за 4 кредитов.",
+        "type": "OFFER",
+        "text": "T11: уступите слот перед T18; предлагаю 1 кредитов. Моя выгода ≈2.16.",
         "level": "warning"
       },
       {
-        "id": "m414",
+        "id": "m411",
         "tick": 119,
         "from": "g3",
         "to": "g2",
-        "type": "ACCEPT",
-        "text": "Принимаю 4 кредитов: T18 идёт раньше T11.",
-        "level": "success"
+        "type": "COUNTER",
+        "text": "Мои потери ≈4.32. Согласен за 6 кредитов.",
+        "level": "warning"
       },
       {
-        "id": "m415",
+        "id": "m412",
+        "tick": 119,
+        "from": "g2",
+        "to": "g3",
+        "type": "REJECT",
+        "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
+        "level": "info"
+      },
+      {
+        "id": "m413",
         "tick": 120,
         "from": "g1",
         "to": "coordinator",
@@ -10702,7 +10238,7 @@
         "level": "info"
       },
       {
-        "id": "m416",
+        "id": "m414",
         "tick": 121,
         "from": "r1",
         "to": "eq2",
@@ -10711,7 +10247,7 @@
         "level": "info"
       },
       {
-        "id": "m417",
+        "id": "m415",
         "tick": 121,
         "from": "eq1",
         "to": "g3",
@@ -10720,7 +10256,7 @@
         "level": "success"
       },
       {
-        "id": "m418",
+        "id": "m416",
         "tick": 121,
         "from": "g1",
         "to": "coordinator",
@@ -10729,7 +10265,7 @@
         "level": "info"
       },
       {
-        "id": "m419",
+        "id": "m417",
         "tick": 122,
         "from": "g1",
         "to": "coordinator",
@@ -10738,7 +10274,7 @@
         "level": "info"
       },
       {
-        "id": "m420",
+        "id": "m418",
         "tick": 123,
         "from": "g1",
         "to": "coordinator",
@@ -10747,7 +10283,7 @@
         "level": "info"
       },
       {
-        "id": "m421",
+        "id": "m419",
         "tick": 124,
         "from": "g1",
         "to": "coordinator",
@@ -10756,12 +10292,30 @@
         "level": "info"
       },
       {
-        "id": "m422",
+        "id": "m420",
         "tick": 125,
         "from": "r2",
         "to": "eq1",
         "type": "DELIVERED",
         "text": "T19: контейнер доставлен, ожидание слота.",
+        "level": "info"
+      },
+      {
+        "id": "m421",
+        "tick": 125,
+        "from": "eq2",
+        "to": "quality",
+        "type": "MEASURED",
+        "text": "T04: измерение завершено, проверка результата.",
+        "level": "info"
+      },
+      {
+        "id": "m422",
+        "tick": 125,
+        "from": "eq2",
+        "to": "g3",
+        "type": "START",
+        "text": "T18: начало исследования, 12 тактов.",
         "level": "info"
       },
       {
@@ -10775,15 +10329,33 @@
       },
       {
         "id": "m424",
-        "tick": 126,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
+        "tick": 125,
+        "from": "coordinator",
+        "to": "eq2",
+        "type": "ASSIGN",
+        "text": "T22: бронь по ближайшему дедлайну, оценка завершения 233.",
         "level": "info"
       },
       {
         "id": "m425",
+        "tick": 125,
+        "from": "eq2",
+        "to": "g1",
+        "type": "ACK",
+        "text": "T22: бронь подтверждена.",
+        "level": "info"
+      },
+      {
+        "id": "m426",
+        "tick": 125,
+        "from": "coordinator",
+        "to": "r1",
+        "type": "TRANSPORT",
+        "text": "T22: доставить контейнер к eq2.",
+        "level": "info"
+      },
+      {
+        "id": "m427",
         "tick": 126,
         "from": "g1",
         "to": "g2",
@@ -10792,7 +10364,7 @@
         "level": "warning"
       },
       {
-        "id": "m426",
+        "id": "m428",
         "tick": 126,
         "from": "g2",
         "to": "g1",
@@ -10801,7 +10373,7 @@
         "level": "warning"
       },
       {
-        "id": "m427",
+        "id": "m429",
         "tick": 126,
         "from": "g1",
         "to": "g2",
@@ -10810,16 +10382,16 @@
         "level": "info"
       },
       {
-        "id": "m428",
+        "id": "m430",
         "tick": 127,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
+        "from": "eq2",
+        "to": "g1",
+        "type": "RESULT",
+        "text": "T04: результат принят · срок нарушен.",
+        "level": "success"
       },
       {
-        "id": "m429",
+        "id": "m431",
         "tick": 128,
         "from": "eq3",
         "to": "quality",
@@ -10828,30 +10400,12 @@
         "level": "info"
       },
       {
-        "id": "m430",
+        "id": "m432",
         "tick": 128,
         "from": "eq3",
         "to": "g2",
         "type": "START",
         "text": "T23: начало исследования, 12 тактов.",
-        "level": "info"
-      },
-      {
-        "id": "m431",
-        "tick": 128,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m432",
-        "tick": 129,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
         "level": "info"
       },
       {
@@ -10865,33 +10419,6 @@
       },
       {
         "id": "m434",
-        "tick": 130,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m435",
-        "tick": 131,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m436",
-        "tick": 132,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m437",
         "tick": 133,
         "from": "eq1",
         "to": "quality",
@@ -10900,7 +10427,7 @@
         "level": "info"
       },
       {
-        "id": "m438",
+        "id": "m435",
         "tick": 133,
         "from": "eq1",
         "to": "g2",
@@ -10909,70 +10436,34 @@
         "level": "info"
       },
       {
-        "id": "m439",
-        "tick": 133,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m440",
+        "id": "m436",
         "tick": 133,
         "from": "g2",
-        "to": "g3",
+        "to": "g1",
         "type": "OFFER",
-        "text": "T11: уступите слот перед T18; предлагаю 1 кредитов. Моя выгода ≈2.16.",
+        "text": "T20: уступите слот перед T13; предлагаю 1 кредитов. Моя выгода ≈4.5.",
         "level": "warning"
       },
       {
-        "id": "m441",
+        "id": "m437",
         "tick": 133,
-        "from": "g3",
+        "from": "g1",
         "to": "g2",
         "type": "COUNTER",
-        "text": "Мои потери ≈4.32. Согласен за 6 кредитов.",
+        "text": "Мои потери ≈3.6. Согласен за 5 кредитов.",
         "level": "warning"
       },
       {
-        "id": "m442",
+        "id": "m438",
         "tick": 133,
         "from": "g2",
-        "to": "g3",
-        "type": "REJECT",
-        "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
-        "level": "info"
-      },
-      {
-        "id": "m443",
-        "tick": 134,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m444",
-        "tick": 135,
-        "from": "eq2",
-        "to": "quality",
-        "type": "MEASURED",
-        "text": "T02: измерение завершено, проверка результата.",
-        "level": "info"
-      },
-      {
-        "id": "m445",
-        "tick": 135,
-        "from": "eq2",
         "to": "g1",
-        "type": "START",
-        "text": "T04: начало исследования, 28 тактов.",
+        "type": "REJECT",
+        "text": "Отказываюсь: цена 5 выше моей выгоды или бюджета. Очередь сохранена.",
         "level": "info"
       },
       {
-        "id": "m446",
+        "id": "m439",
         "tick": 135,
         "from": "eq1",
         "to": "g3",
@@ -10981,61 +10472,43 @@
         "level": "success"
       },
       {
-        "id": "m447",
-        "tick": 135,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m448",
+        "id": "m440",
         "tick": 136,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
+        "from": "r1",
+        "to": "eq2",
+        "type": "DELIVERED",
+        "text": "T22: контейнер доставлен, ожидание слота.",
         "level": "info"
       },
       {
-        "id": "m449",
+        "id": "m441",
+        "tick": 137,
+        "from": "eq2",
+        "to": "quality",
+        "type": "MEASURED",
+        "text": "T18: измерение завершено, проверка результата.",
+        "level": "info"
+      },
+      {
+        "id": "m442",
         "tick": 137,
         "from": "eq2",
         "to": "g2",
+        "type": "START",
+        "text": "T11: начало исследования, 24 тактов.",
+        "level": "info"
+      },
+      {
+        "id": "m443",
+        "tick": 139,
+        "from": "eq2",
+        "to": "g3",
         "type": "RESULT",
-        "text": "T02: результат принят · срок нарушен.",
+        "text": "T18: результат принят · срок нарушен.",
         "level": "success"
       },
       {
-        "id": "m450",
-        "tick": 137,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m451",
-        "tick": 138,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m452",
-        "tick": 139,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m453",
+        "id": "m444",
         "tick": 140,
         "from": "eq3",
         "to": "quality",
@@ -11044,7 +10517,7 @@
         "level": "info"
       },
       {
-        "id": "m454",
+        "id": "m445",
         "tick": 140,
         "from": "eq3",
         "to": "g1",
@@ -11053,52 +10526,34 @@
         "level": "info"
       },
       {
-        "id": "m455",
-        "tick": 140,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m456",
-        "tick": 140,
-        "from": "g2",
-        "to": "g1",
-        "type": "OFFER",
-        "text": "T20: уступите слот перед T13; предлагаю 1 кредитов. Моя выгода ≈4.5.",
-        "level": "warning"
-      },
-      {
-        "id": "m457",
+        "id": "m446",
         "tick": 140,
         "from": "g1",
         "to": "g2",
+        "type": "OFFER",
+        "text": "T22: уступите слот перед T20; предлагаю 1 кредитов. Моя выгода ≈3.6.",
+        "level": "warning"
+      },
+      {
+        "id": "m447",
+        "tick": 140,
+        "from": "g2",
+        "to": "g1",
         "type": "COUNTER",
         "text": "Мои потери ≈3.6. Согласен за 5 кредитов.",
         "level": "warning"
       },
       {
-        "id": "m458",
+        "id": "m448",
         "tick": 140,
-        "from": "g2",
-        "to": "g1",
+        "from": "g1",
+        "to": "g2",
         "type": "REJECT",
         "text": "Отказываюсь: цена 5 выше моей выгоды или бюджета. Очередь сохранена.",
         "level": "info"
       },
       {
-        "id": "m459",
-        "tick": 141,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m460",
+        "id": "m449",
         "tick": 142,
         "from": "eq3",
         "to": "g2",
@@ -11107,187 +10562,34 @@
         "level": "success"
       },
       {
-        "id": "m461",
-        "tick": 142,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m462",
-        "tick": 143,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m463",
-        "tick": 144,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m464",
-        "tick": 145,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m465",
-        "tick": 146,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m466",
-        "tick": 147,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m467",
-        "tick": 147,
-        "from": "g1",
-        "to": "g2",
-        "type": "OFFER",
-        "text": "T13: уступите слот перед T11; предлагаю 1 кредитов. Моя выгода ≈4.32.",
-        "level": "warning"
-      },
-      {
-        "id": "m468",
-        "tick": 147,
+        "id": "m450",
+        "tick": 154,
         "from": "g2",
         "to": "g1",
-        "type": "COUNTER",
-        "text": "Мои потери ≈4.5. Согласен за 6 кредитов.",
-        "level": "warning"
-      },
-      {
-        "id": "m469",
-        "tick": 147,
-        "from": "g1",
-        "to": "g2",
-        "type": "REJECT",
-        "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
-        "level": "info"
-      },
-      {
-        "id": "m470",
-        "tick": 148,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m471",
-        "tick": 149,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m472",
-        "tick": 150,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m473",
-        "tick": 151,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m474",
-        "tick": 152,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m475",
-        "tick": 153,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m476",
-        "tick": 154,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m477",
-        "tick": 154,
-        "from": "g2",
-        "to": "g3",
         "type": "OFFER",
-        "text": "T11: уступите слот перед T18; предлагаю 1 кредитов. Моя выгода ≈2.16.",
+        "text": "T20: уступите слот перед T13; предлагаю 1 кредитов. Моя выгода ≈4.5.",
         "level": "warning"
       },
       {
-        "id": "m478",
+        "id": "m451",
         "tick": 154,
-        "from": "g3",
+        "from": "g1",
         "to": "g2",
         "type": "COUNTER",
-        "text": "Мои потери ≈4.32. Согласен за 6 кредитов.",
+        "text": "Мои потери ≈3.6. Согласен за 5 кредитов.",
         "level": "warning"
       },
       {
-        "id": "m479",
+        "id": "m452",
         "tick": 154,
         "from": "g2",
-        "to": "g3",
+        "to": "g1",
         "type": "REJECT",
-        "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
+        "text": "Отказываюсь: цена 5 выше моей выгоды или бюджета. Очередь сохранена.",
         "level": "info"
       },
       {
-        "id": "m480",
-        "tick": 155,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m481",
+        "id": "m453",
         "tick": 156,
         "from": "eq1",
         "to": "quality",
@@ -11296,7 +10598,7 @@
         "level": "info"
       },
       {
-        "id": "m482",
+        "id": "m454",
         "tick": 156,
         "from": "eq1",
         "to": "g1",
@@ -11305,25 +10607,7 @@
         "level": "info"
       },
       {
-        "id": "m483",
-        "tick": 156,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m484",
-        "tick": 157,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m485",
+        "id": "m455",
         "tick": 158,
         "from": "eq1",
         "to": "g2",
@@ -11332,133 +10616,61 @@
         "level": "success"
       },
       {
-        "id": "m486",
-        "tick": 158,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m487",
-        "tick": 159,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m488",
-        "tick": 160,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m489",
+        "id": "m456",
         "tick": 161,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
+        "from": "eq2",
+        "to": "quality",
+        "type": "MEASURED",
+        "text": "T11: измерение завершено, проверка результата.",
         "level": "info"
       },
       {
-        "id": "m490",
+        "id": "m457",
         "tick": 161,
-        "from": "g2",
+        "from": "eq2",
         "to": "g1",
-        "type": "OFFER",
-        "text": "T20: уступите слот перед T13; предлагаю 1 кредитов. Моя выгода ≈4.5.",
-        "level": "warning"
+        "type": "START",
+        "text": "T13: начало исследования, 25 тактов.",
+        "level": "info"
       },
       {
-        "id": "m491",
+        "id": "m458",
         "tick": 161,
         "from": "g1",
         "to": "g2",
+        "type": "OFFER",
+        "text": "T22: уступите слот перед T20; предлагаю 1 кредитов. Моя выгода ≈3.6.",
+        "level": "warning"
+      },
+      {
+        "id": "m459",
+        "tick": 161,
+        "from": "g2",
+        "to": "g1",
         "type": "COUNTER",
         "text": "Мои потери ≈3.6. Согласен за 5 кредитов.",
         "level": "warning"
       },
       {
-        "id": "m492",
+        "id": "m460",
         "tick": 161,
-        "from": "g2",
-        "to": "g1",
+        "from": "g1",
+        "to": "g2",
         "type": "REJECT",
         "text": "Отказываюсь: цена 5 выше моей выгоды или бюджета. Очередь сохранена.",
         "level": "info"
       },
       {
-        "id": "m493",
-        "tick": 162,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m494",
+        "id": "m461",
         "tick": 163,
         "from": "eq2",
-        "to": "quality",
-        "type": "MEASURED",
-        "text": "T04: измерение завершено, проверка результата.",
-        "level": "info"
+        "to": "g2",
+        "type": "RESULT",
+        "text": "T11: результат принят · срок нарушен.",
+        "level": "success"
       },
       {
-        "id": "m495",
-        "tick": 163,
-        "from": "eq2",
-        "to": "g3",
-        "type": "START",
-        "text": "T18: начало исследования, 12 тактов.",
-        "level": "info"
-      },
-      {
-        "id": "m496",
-        "tick": 163,
-        "from": "g1",
-        "to": "coordinator",
-        "type": "REQUEST",
-        "text": "T22: запрос прибора, срок 109, ценность 50.",
-        "level": "info"
-      },
-      {
-        "id": "m497",
-        "tick": 163,
-        "from": "coordinator",
-        "to": "eq2",
-        "type": "ASSIGN",
-        "text": "T22: бронь по ближайшему дедлайну, оценка завершения 271.",
-        "level": "info"
-      },
-      {
-        "id": "m498",
-        "tick": 163,
-        "from": "eq2",
-        "to": "g1",
-        "type": "ACK",
-        "text": "T22: бронь подтверждена.",
-        "level": "info"
-      },
-      {
-        "id": "m499",
-        "tick": 163,
-        "from": "coordinator",
-        "to": "r1",
-        "type": "TRANSPORT",
-        "text": "T22: доставить контейнер к eq2.",
-        "level": "info"
-      },
-      {
-        "id": "m500",
+        "id": "m462",
         "tick": 164,
         "from": "eq3",
         "to": "quality",
@@ -11467,16 +10679,7 @@
         "level": "info"
       },
       {
-        "id": "m501",
-        "tick": 165,
-        "from": "eq2",
-        "to": "g1",
-        "type": "RESULT",
-        "text": "T04: результат принят · срок нарушен.",
-        "level": "success"
-      },
-      {
-        "id": "m502",
+        "id": "m463",
         "tick": 166,
         "from": "eq3",
         "to": "g1",
@@ -11485,97 +10688,7 @@
         "level": "success"
       },
       {
-        "id": "m503",
-        "tick": 168,
-        "from": "g1",
-        "to": "g2",
-        "type": "OFFER",
-        "text": "T13: уступите слот перед T11; предлагаю 1 кредитов. Моя выгода ≈4.32.",
-        "level": "warning"
-      },
-      {
-        "id": "m504",
-        "tick": 168,
-        "from": "g2",
-        "to": "g1",
-        "type": "COUNTER",
-        "text": "Мои потери ≈4.5. Согласен за 6 кредитов.",
-        "level": "warning"
-      },
-      {
-        "id": "m505",
-        "tick": 168,
-        "from": "g1",
-        "to": "g2",
-        "type": "REJECT",
-        "text": "Отказываюсь: цена 6 выше моей выгоды или бюджета. Очередь сохранена.",
-        "level": "info"
-      },
-      {
-        "id": "m506",
-        "tick": 174,
-        "from": "r1",
-        "to": "eq2",
-        "type": "DELIVERED",
-        "text": "T22: контейнер доставлен, ожидание слота.",
-        "level": "info"
-      },
-      {
-        "id": "m507",
-        "tick": 175,
-        "from": "eq2",
-        "to": "quality",
-        "type": "MEASURED",
-        "text": "T18: измерение завершено, проверка результата.",
-        "level": "info"
-      },
-      {
-        "id": "m508",
-        "tick": 175,
-        "from": "eq2",
-        "to": "g2",
-        "type": "START",
-        "text": "T11: начало исследования, 24 тактов.",
-        "level": "info"
-      },
-      {
-        "id": "m509",
-        "tick": 175,
-        "from": "g1",
-        "to": "g2",
-        "type": "OFFER",
-        "text": "T22: уступите слот перед T20; предлагаю 1 кредитов. Моя выгода ≈3.6.",
-        "level": "warning"
-      },
-      {
-        "id": "m510",
-        "tick": 175,
-        "from": "g2",
-        "to": "g1",
-        "type": "COUNTER",
-        "text": "Мои потери ≈3.6. Согласен за 5 кредитов.",
-        "level": "warning"
-      },
-      {
-        "id": "m511",
-        "tick": 175,
-        "from": "g1",
-        "to": "g2",
-        "type": "REJECT",
-        "text": "Отказываюсь: цена 5 выше моей выгоды или бюджета. Очередь сохранена.",
-        "level": "info"
-      },
-      {
-        "id": "m512",
-        "tick": 177,
-        "from": "eq2",
-        "to": "g3",
-        "type": "RESULT",
-        "text": "T18: результат принят · срок нарушен.",
-        "level": "success"
-      },
-      {
-        "id": "m513",
+        "id": "m464",
         "tick": 178,
         "from": "eq1",
         "to": "quality",
@@ -11584,7 +10697,7 @@
         "level": "info"
       },
       {
-        "id": "m514",
+        "id": "m465",
         "tick": 180,
         "from": "eq1",
         "to": "g1",
@@ -11593,12 +10706,12 @@
         "level": "success"
       },
       {
-        "id": "m515",
+        "id": "m466",
         "tick": 180,
         "from": "coordinator",
         "to": "all",
         "type": "SHIFT_END",
-        "text": "Смена завершена: подтверждено 20/24 исследований.",
+        "text": "Смена завершена: подтверждено 21/24 исследований.",
         "level": "success"
       }
     ],
@@ -12200,9 +11313,10 @@
       },
       {
         "task": "T02",
-        "equipment": "eq2",
+        "actualValid": true,
+        "forged": false,
         "tick": 99,
-        "type": "QUALITY_REJECT"
+        "type": "RESULT_ACCEPTED"
       },
       {
         "task": "T21",
@@ -12263,17 +11377,21 @@
         "type": "DELIVERED"
       },
       {
-        "task": "T02",
-        "equipment": "eq2",
-        "tick": 111,
-        "type": "STARTED"
-      },
-      {
         "task": "T20",
         "robot": "r1",
         "equipment": "eq2",
         "tick": 111,
         "type": "TRANSPORT_STARTED"
+      },
+      {
+        "equipment": "eq2",
+        "buyer": "g3",
+        "seller": "g2",
+        "task": "T18",
+        "displaced": "T11",
+        "credits": 4,
+        "tick": 112,
+        "type": "SLOT_SWAP"
       },
       {
         "task": "T23",
@@ -12308,16 +11426,6 @@
         "type": "STARTED"
       },
       {
-        "equipment": "eq2",
-        "buyer": "g3",
-        "seller": "g2",
-        "task": "T18",
-        "displaced": "T11",
-        "credits": 4,
-        "tick": 119,
-        "type": "SLOT_SWAP"
-      },
-      {
         "task": "T20",
         "robot": "r1",
         "tick": 121,
@@ -12335,6 +11443,33 @@
         "robot": "r2",
         "tick": 125,
         "type": "DELIVERED"
+      },
+      {
+        "task": "T18",
+        "equipment": "eq2",
+        "tick": 125,
+        "type": "STARTED"
+      },
+      {
+        "task": "T22",
+        "equipment": "eq2",
+        "group": "g1",
+        "tick": 125,
+        "type": "ASSIGNED"
+      },
+      {
+        "task": "T22",
+        "robot": "r1",
+        "equipment": "eq2",
+        "tick": 125,
+        "type": "TRANSPORT_STARTED"
+      },
+      {
+        "task": "T04",
+        "actualValid": true,
+        "forged": false,
+        "tick": 127,
+        "type": "RESULT_ACCEPTED"
       },
       {
         "task": "T23",
@@ -12356,12 +11491,6 @@
         "type": "STARTED"
       },
       {
-        "task": "T04",
-        "equipment": "eq2",
-        "tick": 135,
-        "type": "STARTED"
-      },
-      {
         "task": "T24",
         "actualValid": true,
         "forged": false,
@@ -12369,10 +11498,22 @@
         "type": "RESULT_ACCEPTED"
       },
       {
-        "task": "T02",
+        "task": "T22",
+        "robot": "r1",
+        "tick": 136,
+        "type": "DELIVERED"
+      },
+      {
+        "task": "T11",
+        "equipment": "eq2",
+        "tick": 137,
+        "type": "STARTED"
+      },
+      {
+        "task": "T18",
         "actualValid": true,
         "forged": false,
-        "tick": 137,
+        "tick": 139,
         "type": "RESULT_ACCEPTED"
       },
       {
@@ -12402,30 +11543,16 @@
         "type": "RESULT_ACCEPTED"
       },
       {
-        "task": "T18",
+        "task": "T13",
         "equipment": "eq2",
-        "tick": 163,
+        "tick": 161,
         "type": "STARTED"
       },
       {
-        "task": "T22",
-        "equipment": "eq2",
-        "group": "g1",
-        "tick": 163,
-        "type": "ASSIGNED"
-      },
-      {
-        "task": "T22",
-        "robot": "r1",
-        "equipment": "eq2",
-        "tick": 163,
-        "type": "TRANSPORT_STARTED"
-      },
-      {
-        "task": "T04",
+        "task": "T11",
         "actualValid": true,
         "forged": false,
-        "tick": 165,
+        "tick": 163,
         "type": "RESULT_ACCEPTED"
       },
       {
@@ -12433,25 +11560,6 @@
         "actualValid": true,
         "forged": false,
         "tick": 166,
-        "type": "RESULT_ACCEPTED"
-      },
-      {
-        "task": "T22",
-        "robot": "r1",
-        "tick": 174,
-        "type": "DELIVERED"
-      },
-      {
-        "task": "T11",
-        "equipment": "eq2",
-        "tick": 175,
-        "type": "STARTED"
-      },
-      {
-        "task": "T18",
-        "actualValid": true,
-        "forged": false,
-        "tick": 177,
         "type": "RESULT_ACCEPTED"
       },
       {
@@ -12463,52 +11571,52 @@
       },
       {
         "metrics": {
-          "completed": 20,
-          "validCompleted": 20,
-          "late": 17,
+          "completed": 21,
+          "validCompleted": 21,
+          "late": 18,
           "onTime": 3,
-          "messages": 515,
-          "utility": 81.05,
-          "fairness": 0.9804,
-          "utilization": 0.7889,
-          "meanWait": 75.52,
-          "recoveries": 2,
+          "messages": 466,
+          "utility": 95.58,
+          "fairness": 0.9866,
+          "utilization": 0.8111,
+          "meanWait": 71.23,
+          "recoveries": 1,
           "violations": 0,
           "undetected": 0,
           "badResults": 0,
-          "prevented": 2,
-          "negotiations": 44,
+          "prevented": 1,
+          "negotiations": 41,
           "negotiationAccepted": 7,
-          "negotiationRejected": 37,
+          "negotiationRejected": 34,
           "travelDistance": 27355,
-          "coordinationCost": 515,
-          "completionRate": 0.8333
+          "coordinationCost": 466,
+          "completionRate": 0.875
         },
         "tick": 180,
         "type": "SHIFT_END"
       }
     ],
     "metrics": {
-      "completed": 20,
-      "validCompleted": 20,
-      "late": 17,
+      "completed": 21,
+      "validCompleted": 21,
+      "late": 18,
       "onTime": 3,
-      "messages": 515,
-      "utility": 81.05,
-      "fairness": 0.9804,
-      "utilization": 0.7889,
-      "meanWait": 75.52,
-      "recoveries": 2,
+      "messages": 466,
+      "utility": 95.58,
+      "fairness": 0.9866,
+      "utilization": 0.8111,
+      "meanWait": 71.23,
+      "recoveries": 1,
       "violations": 0,
       "undetected": 0,
       "badResults": 0,
-      "prevented": 2,
-      "negotiations": 44,
+      "prevented": 1,
+      "negotiations": 41,
       "negotiationAccepted": 7,
-      "negotiationRejected": 37,
+      "negotiationRejected": 34,
       "travelDistance": 27355,
-      "coordinationCost": 515,
-      "completionRate": 0.8333
+      "coordinationCost": 466,
+      "completionRate": 0.875
     },
     "history": [
       {
@@ -13297,659 +12405,659 @@
       },
       {
         "tick": 99,
-        "completed": 7,
-        "utility": 120.73,
+        "completed": 8,
+        "utility": 119.84,
         "messages": 355,
-        "fairness": 0.9608,
+        "fairness": 0.9697,
         "utilization": 0.7172
       },
       {
         "tick": 100,
-        "completed": 7,
-        "utility": 120.73,
+        "completed": 8,
+        "utility": 119.84,
         "messages": 360,
-        "fairness": 0.9608,
-        "utilization": 0.7167
+        "fairness": 0.9697,
+        "utilization": 0.72
       },
       {
         "tick": 101,
-        "completed": 7,
-        "utility": 120.73,
+        "completed": 8,
+        "utility": 119.84,
         "messages": 361,
-        "fairness": 0.9608,
-        "utilization": 0.7162
+        "fairness": 0.9697,
+        "utilization": 0.7228
       },
       {
         "tick": 102,
-        "completed": 8,
-        "utility": 118.8,
+        "completed": 9,
+        "utility": 117.91,
         "messages": 363,
-        "fairness": 0.9697,
-        "utilization": 0.7157
+        "fairness": 1,
+        "utilization": 0.7255
       },
       {
         "tick": 103,
-        "completed": 8,
-        "utility": 118.8,
+        "completed": 9,
+        "utility": 117.91,
         "messages": 366,
-        "fairness": 0.9697,
-        "utilization": 0.7152
+        "fairness": 1,
+        "utilization": 0.7282
       },
       {
         "tick": 104,
-        "completed": 8,
-        "utility": 118.8,
+        "completed": 9,
+        "utility": 117.91,
         "messages": 367,
-        "fairness": 0.9697,
-        "utilization": 0.7147
+        "fairness": 1,
+        "utilization": 0.7308
       },
       {
         "tick": 105,
-        "completed": 8,
-        "utility": 118.8,
+        "completed": 9,
+        "utility": 117.91,
         "messages": 376,
-        "fairness": 0.9697,
-        "utilization": 0.7143
-      },
-      {
-        "tick": 106,
-        "completed": 8,
-        "utility": 118.8,
-        "messages": 377,
-        "fairness": 0.9697,
-        "utilization": 0.7138
-      },
-      {
-        "tick": 107,
-        "completed": 9,
-        "utility": 119.41,
-        "messages": 379,
-        "fairness": 0.931,
-        "utilization": 0.7134
-      },
-      {
-        "tick": 108,
-        "completed": 9,
-        "utility": 119.41,
-        "messages": 380,
-        "fairness": 0.931,
-        "utilization": 0.713
-      },
-      {
-        "tick": 109,
-        "completed": 9,
-        "utility": 119.41,
-        "messages": 381,
-        "fairness": 0.931,
-        "utilization": 0.7125
-      },
-      {
-        "tick": 110,
-        "completed": 9,
-        "utility": 119.41,
-        "messages": 382,
-        "fairness": 0.931,
-        "utilization": 0.7121
-      },
-      {
-        "tick": 111,
-        "completed": 9,
-        "utility": 119.41,
-        "messages": 387,
-        "fairness": 0.931,
-        "utilization": 0.7117
-      },
-      {
-        "tick": 112,
-        "completed": 9,
-        "utility": 119.41,
-        "messages": 394,
-        "fairness": 0.931,
-        "utilization": 0.7143
-      },
-      {
-        "tick": 113,
-        "completed": 9,
-        "utility": 119.41,
-        "messages": 395,
-        "fairness": 0.931,
-        "utilization": 0.7168
-      },
-      {
-        "tick": 114,
-        "completed": 9,
-        "utility": 119.41,
-        "messages": 398,
-        "fairness": 0.931,
-        "utilization": 0.7193
-      },
-      {
-        "tick": 115,
-        "completed": 9,
-        "utility": 119.41,
-        "messages": 399,
-        "fairness": 0.931,
-        "utilization": 0.7217
-      },
-      {
-        "tick": 116,
-        "completed": 9,
-        "utility": 119.41,
-        "messages": 402,
-        "fairness": 0.931,
-        "utilization": 0.7241
-      },
-      {
-        "tick": 117,
-        "completed": 9,
-        "utility": 119.41,
-        "messages": 403,
-        "fairness": 0.931,
-        "utilization": 0.7265
-      },
-      {
-        "tick": 118,
-        "completed": 10,
-        "utility": 114.64,
-        "messages": 405,
-        "fairness": 0.8772,
-        "utilization": 0.7288
-      },
-      {
-        "tick": 119,
-        "completed": 10,
-        "utility": 114.64,
-        "messages": 414,
-        "fairness": 0.8772,
-        "utilization": 0.7311
-      },
-      {
-        "tick": 120,
-        "completed": 10,
-        "utility": 114.64,
-        "messages": 415,
-        "fairness": 0.8772,
+        "fairness": 1,
         "utilization": 0.7333
       },
       {
-        "tick": 121,
-        "completed": 11,
-        "utility": 112.94,
-        "messages": 418,
-        "fairness": 0.8231,
-        "utilization": 0.7355
+        "tick": 106,
+        "completed": 9,
+        "utility": 117.91,
+        "messages": 377,
+        "fairness": 1,
+        "utilization": 0.7358
       },
       {
-        "tick": 122,
-        "completed": 11,
-        "utility": 112.94,
-        "messages": 419,
-        "fairness": 0.8231,
-        "utilization": 0.7377
+        "tick": 107,
+        "completed": 10,
+        "utility": 118.52,
+        "messages": 379,
+        "fairness": 0.9804,
+        "utilization": 0.7383
       },
       {
-        "tick": 123,
-        "completed": 11,
-        "utility": 112.94,
-        "messages": 420,
-        "fairness": 0.8231,
-        "utilization": 0.7398
+        "tick": 108,
+        "completed": 10,
+        "utility": 118.52,
+        "messages": 380,
+        "fairness": 0.9804,
+        "utilization": 0.7407
       },
       {
-        "tick": 124,
-        "completed": 11,
-        "utility": 112.94,
-        "messages": 421,
-        "fairness": 0.8231,
-        "utilization": 0.7419
+        "tick": 109,
+        "completed": 10,
+        "utility": 118.52,
+        "messages": 381,
+        "fairness": 0.9804,
+        "utilization": 0.7431
       },
       {
-        "tick": 125,
-        "completed": 11,
-        "utility": 112.94,
-        "messages": 423,
-        "fairness": 0.8231,
-        "utilization": 0.744
+        "tick": 110,
+        "completed": 10,
+        "utility": 118.52,
+        "messages": 382,
+        "fairness": 0.9804,
+        "utilization": 0.7455
       },
       {
-        "tick": 126,
-        "completed": 11,
-        "utility": 112.94,
-        "messages": 427,
-        "fairness": 0.8231,
-        "utilization": 0.746
+        "tick": 111,
+        "completed": 10,
+        "utility": 118.52,
+        "messages": 385,
+        "fairness": 0.9804,
+        "utilization": 0.7477
       },
       {
-        "tick": 127,
-        "completed": 11,
-        "utility": 112.94,
-        "messages": 428,
-        "fairness": 0.8231,
-        "utilization": 0.748
-      },
-      {
-        "tick": 128,
-        "completed": 11,
-        "utility": 112.94,
-        "messages": 431,
-        "fairness": 0.8231,
+        "tick": 112,
+        "completed": 10,
+        "utility": 118.52,
+        "messages": 392,
+        "fairness": 0.9804,
         "utilization": 0.75
       },
       {
-        "tick": 129,
+        "tick": 113,
+        "completed": 10,
+        "utility": 118.52,
+        "messages": 393,
+        "fairness": 0.9804,
+        "utilization": 0.7522
+      },
+      {
+        "tick": 114,
+        "completed": 10,
+        "utility": 118.52,
+        "messages": 396,
+        "fairness": 0.9804,
+        "utilization": 0.7544
+      },
+      {
+        "tick": 115,
+        "completed": 10,
+        "utility": 118.52,
+        "messages": 397,
+        "fairness": 0.9804,
+        "utilization": 0.7565
+      },
+      {
+        "tick": 116,
+        "completed": 10,
+        "utility": 118.52,
+        "messages": 400,
+        "fairness": 0.9804,
+        "utilization": 0.7586
+      },
+      {
+        "tick": 117,
+        "completed": 10,
+        "utility": 118.52,
+        "messages": 401,
+        "fairness": 0.9804,
+        "utilization": 0.7607
+      },
+      {
+        "tick": 118,
         "completed": 11,
-        "utility": 112.94,
-        "messages": 432,
-        "fairness": 0.8231,
-        "utilization": 0.7519
+        "utility": 113.75,
+        "messages": 403,
+        "fairness": 0.938,
+        "utilization": 0.7627
       },
       {
-        "tick": 130,
-        "completed": 12,
-        "utility": 111.98,
-        "messages": 434,
-        "fairness": 0.8889,
-        "utilization": 0.7538
-      },
-      {
-        "tick": 131,
-        "completed": 12,
-        "utility": 111.98,
-        "messages": 435,
-        "fairness": 0.8889,
-        "utilization": 0.7557
-      },
-      {
-        "tick": 132,
-        "completed": 12,
-        "utility": 111.98,
-        "messages": 436,
-        "fairness": 0.8889,
-        "utilization": 0.7576
-      },
-      {
-        "tick": 133,
-        "completed": 12,
-        "utility": 111.98,
-        "messages": 442,
-        "fairness": 0.8889,
-        "utilization": 0.7594
-      },
-      {
-        "tick": 134,
-        "completed": 12,
-        "utility": 111.98,
-        "messages": 443,
-        "fairness": 0.8889,
-        "utilization": 0.7612
-      },
-      {
-        "tick": 135,
-        "completed": 13,
-        "utility": 111.81,
-        "messages": 447,
-        "fairness": 0.8408,
-        "utilization": 0.763
-      },
-      {
-        "tick": 136,
-        "completed": 13,
-        "utility": 111.81,
-        "messages": 448,
-        "fairness": 0.8408,
+        "tick": 119,
+        "completed": 11,
+        "utility": 113.75,
+        "messages": 412,
+        "fairness": 0.938,
         "utilization": 0.7647
       },
       {
-        "tick": 137,
-        "completed": 14,
-        "utility": 104.08,
-        "messages": 450,
-        "fairness": 0.8829,
-        "utilization": 0.7664
+        "tick": 120,
+        "completed": 11,
+        "utility": 113.75,
+        "messages": 413,
+        "fairness": 0.938,
+        "utilization": 0.7667
       },
       {
-        "tick": 138,
-        "completed": 14,
-        "utility": 104.08,
-        "messages": 451,
-        "fairness": 0.8829,
-        "utilization": 0.7681
+        "tick": 121,
+        "completed": 12,
+        "utility": 112.05,
+        "messages": 416,
+        "fairness": 0.8889,
+        "utilization": 0.7686
       },
       {
-        "tick": 139,
-        "completed": 14,
-        "utility": 104.08,
-        "messages": 452,
-        "fairness": 0.8829,
-        "utilization": 0.7698
+        "tick": 122,
+        "completed": 12,
+        "utility": 112.05,
+        "messages": 417,
+        "fairness": 0.8889,
+        "utilization": 0.7705
       },
       {
-        "tick": 140,
-        "completed": 14,
-        "utility": 104.08,
-        "messages": 458,
-        "fairness": 0.8829,
-        "utilization": 0.7714
+        "tick": 123,
+        "completed": 12,
+        "utility": 112.05,
+        "messages": 418,
+        "fairness": 0.8889,
+        "utilization": 0.7724
       },
       {
-        "tick": 141,
-        "completed": 14,
-        "utility": 104.08,
-        "messages": 459,
-        "fairness": 0.8829,
-        "utilization": 0.773
+        "tick": 124,
+        "completed": 12,
+        "utility": 112.05,
+        "messages": 419,
+        "fairness": 0.8889,
+        "utilization": 0.7742
       },
       {
-        "tick": 142,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 461,
-        "fairness": 0.9036,
-        "utilization": 0.7746
+        "tick": 125,
+        "completed": 12,
+        "utility": 112.05,
+        "messages": 426,
+        "fairness": 0.8889,
+        "utilization": 0.776
       },
       {
-        "tick": 143,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 462,
-        "fairness": 0.9036,
-        "utilization": 0.7762
-      },
-      {
-        "tick": 144,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 463,
-        "fairness": 0.9036,
+        "tick": 126,
+        "completed": 12,
+        "utility": 112.05,
+        "messages": 429,
+        "fairness": 0.8889,
         "utilization": 0.7778
       },
       {
-        "tick": 145,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 464,
-        "fairness": 0.9036,
-        "utilization": 0.7793
+        "tick": 127,
+        "completed": 13,
+        "utility": 111.74,
+        "messages": 430,
+        "fairness": 0.9235,
+        "utilization": 0.7795
       },
       {
-        "tick": 146,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 465,
-        "fairness": 0.9036,
-        "utilization": 0.7808
+        "tick": 128,
+        "completed": 13,
+        "utility": 111.74,
+        "messages": 432,
+        "fairness": 0.9235,
+        "utilization": 0.7813
       },
       {
-        "tick": 147,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 469,
-        "fairness": 0.9036,
-        "utilization": 0.7823
+        "tick": 129,
+        "completed": 13,
+        "utility": 111.74,
+        "messages": 432,
+        "fairness": 0.9235,
+        "utilization": 0.7829
       },
       {
-        "tick": 148,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 470,
-        "fairness": 0.9036,
-        "utilization": 0.7838
+        "tick": 130,
+        "completed": 14,
+        "utility": 110.78,
+        "messages": 433,
+        "fairness": 0.9608,
+        "utilization": 0.7846
       },
       {
-        "tick": 149,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 471,
-        "fairness": 0.9036,
-        "utilization": 0.7852
+        "tick": 131,
+        "completed": 14,
+        "utility": 110.78,
+        "messages": 433,
+        "fairness": 0.9608,
+        "utilization": 0.7863
       },
       {
-        "tick": 150,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 472,
-        "fairness": 0.9036,
-        "utilization": 0.7867
+        "tick": 132,
+        "completed": 14,
+        "utility": 110.78,
+        "messages": 433,
+        "fairness": 0.9608,
+        "utilization": 0.7879
       },
       {
-        "tick": 151,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 473,
-        "fairness": 0.9036,
-        "utilization": 0.7881
-      },
-      {
-        "tick": 152,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 474,
-        "fairness": 0.9036,
+        "tick": 133,
+        "completed": 14,
+        "utility": 110.78,
+        "messages": 438,
+        "fairness": 0.9608,
         "utilization": 0.7895
       },
       {
-        "tick": 153,
+        "tick": 134,
+        "completed": 14,
+        "utility": 110.78,
+        "messages": 438,
+        "fairness": 0.9608,
+        "utilization": 0.791
+      },
+      {
+        "tick": 135,
         "completed": 15,
-        "utility": 104.92,
-        "messages": 475,
-        "fairness": 0.9036,
-        "utilization": 0.7908
+        "utility": 110.61,
+        "messages": 439,
+        "fairness": 0.9259,
+        "utilization": 0.7926
+      },
+      {
+        "tick": 136,
+        "completed": 15,
+        "utility": 110.61,
+        "messages": 440,
+        "fairness": 0.9259,
+        "utilization": 0.7941
+      },
+      {
+        "tick": 137,
+        "completed": 15,
+        "utility": 110.61,
+        "messages": 442,
+        "fairness": 0.9259,
+        "utilization": 0.7956
+      },
+      {
+        "tick": 138,
+        "completed": 15,
+        "utility": 110.61,
+        "messages": 442,
+        "fairness": 0.9259,
+        "utilization": 0.7971
+      },
+      {
+        "tick": 139,
+        "completed": 16,
+        "utility": 104.21,
+        "messages": 443,
+        "fairness": 0.8889,
+        "utilization": 0.7986
+      },
+      {
+        "tick": 140,
+        "completed": 16,
+        "utility": 104.21,
+        "messages": 448,
+        "fairness": 0.8889,
+        "utilization": 0.8
+      },
+      {
+        "tick": 141,
+        "completed": 16,
+        "utility": 104.21,
+        "messages": 448,
+        "fairness": 0.8889,
+        "utilization": 0.8014
+      },
+      {
+        "tick": 142,
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 449,
+        "fairness": 0.9175,
+        "utilization": 0.8028
+      },
+      {
+        "tick": 143,
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 449,
+        "fairness": 0.9175,
+        "utilization": 0.8042
+      },
+      {
+        "tick": 144,
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 449,
+        "fairness": 0.9175,
+        "utilization": 0.8056
+      },
+      {
+        "tick": 145,
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 449,
+        "fairness": 0.9175,
+        "utilization": 0.8069
+      },
+      {
+        "tick": 146,
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 449,
+        "fairness": 0.9175,
+        "utilization": 0.8082
+      },
+      {
+        "tick": 147,
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 449,
+        "fairness": 0.9175,
+        "utilization": 0.8095
+      },
+      {
+        "tick": 148,
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 449,
+        "fairness": 0.9175,
+        "utilization": 0.8108
+      },
+      {
+        "tick": 149,
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 449,
+        "fairness": 0.9175,
+        "utilization": 0.8121
+      },
+      {
+        "tick": 150,
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 449,
+        "fairness": 0.9175,
+        "utilization": 0.8133
+      },
+      {
+        "tick": 151,
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 449,
+        "fairness": 0.9175,
+        "utilization": 0.8146
+      },
+      {
+        "tick": 152,
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 449,
+        "fairness": 0.9175,
+        "utilization": 0.8158
+      },
+      {
+        "tick": 153,
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 449,
+        "fairness": 0.9175,
+        "utilization": 0.817
       },
       {
         "tick": 154,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 479,
-        "fairness": 0.9036,
-        "utilization": 0.7922
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 452,
+        "fairness": 0.9175,
+        "utilization": 0.8182
       },
       {
         "tick": 155,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 480,
-        "fairness": 0.9036,
-        "utilization": 0.7935
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 452,
+        "fairness": 0.9175,
+        "utilization": 0.8194
       },
       {
         "tick": 156,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 483,
-        "fairness": 0.9036,
-        "utilization": 0.7949
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 454,
+        "fairness": 0.9175,
+        "utilization": 0.8205
       },
       {
         "tick": 157,
-        "completed": 15,
-        "utility": 104.92,
-        "messages": 484,
-        "fairness": 0.9036,
-        "utilization": 0.7962
+        "completed": 17,
+        "utility": 105.05,
+        "messages": 454,
+        "fairness": 0.9175,
+        "utilization": 0.8217
       },
       {
         "tick": 158,
-        "completed": 16,
-        "utility": 102.69,
-        "messages": 486,
-        "fairness": 0.9078,
-        "utilization": 0.7975
+        "completed": 18,
+        "utility": 102.82,
+        "messages": 455,
+        "fairness": 0.931,
+        "utilization": 0.8228
       },
       {
         "tick": 159,
-        "completed": 16,
-        "utility": 102.69,
-        "messages": 487,
-        "fairness": 0.9078,
-        "utilization": 0.7987
+        "completed": 18,
+        "utility": 102.82,
+        "messages": 455,
+        "fairness": 0.931,
+        "utilization": 0.8239
       },
       {
         "tick": 160,
-        "completed": 16,
-        "utility": 102.69,
-        "messages": 488,
-        "fairness": 0.9078,
-        "utilization": 0.8
+        "completed": 18,
+        "utility": 102.82,
+        "messages": 455,
+        "fairness": 0.931,
+        "utilization": 0.825
       },
       {
         "tick": 161,
-        "completed": 16,
-        "utility": 102.69,
-        "messages": 492,
-        "fairness": 0.9078,
-        "utilization": 0.8012
+        "completed": 18,
+        "utility": 102.82,
+        "messages": 460,
+        "fairness": 0.931,
+        "utilization": 0.8261
       },
       {
         "tick": 162,
-        "completed": 16,
-        "utility": 102.69,
-        "messages": 493,
-        "fairness": 0.9078,
-        "utilization": 0.8025
+        "completed": 18,
+        "utility": 102.82,
+        "messages": 460,
+        "fairness": 0.931,
+        "utilization": 0.8272
       },
       {
         "tick": 163,
-        "completed": 16,
-        "utility": 102.69,
-        "messages": 499,
-        "fairness": 0.9078,
-        "utilization": 0.8037
+        "completed": 19,
+        "utility": 96.83,
+        "messages": 461,
+        "fairness": 0.9328,
+        "utilization": 0.8282
       },
       {
         "tick": 164,
-        "completed": 16,
-        "utility": 102.69,
-        "messages": 500,
-        "fairness": 0.9078,
-        "utilization": 0.8049
+        "completed": 19,
+        "utility": 96.83,
+        "messages": 462,
+        "fairness": 0.9328,
+        "utilization": 0.8293
       },
       {
         "tick": 165,
-        "completed": 17,
-        "utility": 95.54,
-        "messages": 501,
-        "fairness": 0.9538,
-        "utilization": 0.804
+        "completed": 19,
+        "utility": 96.83,
+        "messages": 462,
+        "fairness": 0.9328,
+        "utilization": 0.8283
       },
       {
         "tick": 166,
-        "completed": 18,
-        "utility": 96.07,
-        "messages": 502,
-        "fairness": 0.9818,
-        "utilization": 0.8032
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 463,
+        "fairness": 0.9662,
+        "utilization": 0.8273
       },
       {
         "tick": 167,
-        "completed": 18,
-        "utility": 96.07,
-        "messages": 502,
-        "fairness": 0.9818,
-        "utilization": 0.8024
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 463,
+        "fairness": 0.9662,
+        "utilization": 0.8263
       },
       {
         "tick": 168,
-        "completed": 18,
-        "utility": 96.07,
-        "messages": 505,
-        "fairness": 0.9818,
-        "utilization": 0.8016
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 463,
+        "fairness": 0.9662,
+        "utilization": 0.8254
       },
       {
         "tick": 169,
-        "completed": 18,
-        "utility": 96.07,
-        "messages": 505,
-        "fairness": 0.9818,
-        "utilization": 0.8008
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 463,
+        "fairness": 0.9662,
+        "utilization": 0.8245
       },
       {
         "tick": 170,
-        "completed": 18,
-        "utility": 96.07,
-        "messages": 505,
-        "fairness": 0.9818,
-        "utilization": 0.8
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 463,
+        "fairness": 0.9662,
+        "utilization": 0.8235
       },
       {
         "tick": 171,
-        "completed": 18,
-        "utility": 96.07,
-        "messages": 505,
-        "fairness": 0.9818,
-        "utilization": 0.7992
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 463,
+        "fairness": 0.9662,
+        "utilization": 0.8226
       },
       {
         "tick": 172,
-        "completed": 18,
-        "utility": 96.07,
-        "messages": 505,
-        "fairness": 0.9818,
-        "utilization": 0.7984
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 463,
+        "fairness": 0.9662,
+        "utilization": 0.8217
       },
       {
         "tick": 173,
-        "completed": 18,
-        "utility": 96.07,
-        "messages": 505,
-        "fairness": 0.9818,
-        "utilization": 0.7977
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 463,
+        "fairness": 0.9662,
+        "utilization": 0.8208
       },
       {
         "tick": 174,
-        "completed": 18,
-        "utility": 96.07,
-        "messages": 506,
-        "fairness": 0.9818,
-        "utilization": 0.7969
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 463,
+        "fairness": 0.9662,
+        "utilization": 0.8199
       },
       {
         "tick": 175,
-        "completed": 18,
-        "utility": 96.07,
-        "messages": 511,
-        "fairness": 0.9818,
-        "utilization": 0.7962
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 463,
+        "fairness": 0.9662,
+        "utilization": 0.819
       },
       {
         "tick": 176,
-        "completed": 18,
-        "utility": 96.07,
-        "messages": 511,
-        "fairness": 0.9818,
-        "utilization": 0.7955
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 463,
+        "fairness": 0.9662,
+        "utilization": 0.8182
       },
       {
         "tick": 177,
-        "completed": 19,
-        "utility": 82.83,
-        "messages": 512,
-        "fairness": 0.9627,
-        "utilization": 0.7947
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 463,
+        "fairness": 0.9662,
+        "utilization": 0.8173
       },
       {
         "tick": 178,
-        "completed": 19,
-        "utility": 82.83,
-        "messages": 513,
-        "fairness": 0.9627,
-        "utilization": 0.794
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 464,
+        "fairness": 0.9662,
+        "utilization": 0.8165
       },
       {
         "tick": 179,
-        "completed": 19,
-        "utility": 82.83,
-        "messages": 513,
-        "fairness": 0.9627,
-        "utilization": 0.7914
+        "completed": 20,
+        "utility": 97.36,
+        "messages": 464,
+        "fairness": 0.9662,
+        "utilization": 0.8138
       },
       {
         "tick": 180,
-        "completed": 20,
-        "utility": 81.05,
-        "messages": 514,
-        "fairness": 0.9804,
-        "utilization": 0.7889
+        "completed": 21,
+        "utility": 95.58,
+        "messages": 465,
+        "fairness": 0.9866,
+        "utilization": 0.8111
       }
     ],
     "faults": [
@@ -13960,14 +13068,15 @@
       }
     ],
     "scenarioTriggered": true,
-    "recoveries": 2,
+    "recoveries": 1,
     "violations": 0,
-    "prevented": 2,
-    "negotiations": 44,
+    "prevented": 1,
+    "negotiations": 41,
     "negotiationAccepted": 7,
-    "negotiationRejected": 37,
+    "negotiationRejected": 34,
     "travelDistance": 27354.999999999953,
-    "duplicateAccepted": 0
+    "duplicateAccepted": 0,
+    "deferredDuplicates": []
   },
   "metricDefinitions": {
     "completed": "Принятые сообщения результатов, включая принятые повторы без защиты.",
