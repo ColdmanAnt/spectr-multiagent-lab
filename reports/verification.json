@@ -1,0 +1,48 @@
+{
+  "pagesPerReport": 5,
+  "totalPdfPages": 20,
+  "pdfCreatedFromSameDocx": true,
+  "renderer": "Codex bundled render_docx.py and bundled headless LibreOffice",
+  "files": [
+    {
+      "path": "reports/ЛР1_Холодков_СПЕКТР.docx",
+      "sha256": "d890aa39b61d1ea410fad214e5f6879ac41a72fbcd297ccf7897aab6a413b335",
+      "bytes": 131230
+    },
+    {
+      "path": "reports/ЛР1_Холодков_СПЕКТР.pdf",
+      "sha256": "e14dd105f5c0bca5830bbc65d2570057a1198102c792c9209deb54a0c9017a6e",
+      "bytes": 207245
+    },
+    {
+      "path": "reports/ЛР2_Холодков_СПЕКТР.docx",
+      "sha256": "c50589451ae3a9746f0105938cccc86a52a807837a10641efa8a9e71e0084a52",
+      "bytes": 73041
+    },
+    {
+      "path": "reports/ЛР2_Холодков_СПЕКТР.pdf",
+      "sha256": "14135f6f0fd2ec11aaf3f12b4261f9db061adc641f048152552543965d79de29",
+      "bytes": 164750
+    },
+    {
+      "path": "reports/ЛР3_Холодков_СПЕКТР.docx",
+      "sha256": "ad7d7ce639ea55519222c7418572e175a5f69f1d5f639c50c694dea9aad3d28c",
+      "bytes": 77023
+    },
+    {
+      "path": "reports/ЛР3_Холодков_СПЕКТР.pdf",
+      "sha256": "064550a838049afb5732cff69a42eaaa053343ab2dd785410dfd324dd19b7b83",
+      "bytes": 168749
+    },
+    {
+      "path": "reports/ЛР4_Холодков_СПЕКТР.docx",
+      "sha256": "85e5644acedeb9615db815b322b9f672978db56c01b59d651e83c45289d3b135",
+      "bytes": 76834
+    },
+    {
+      "path": "reports/ЛР4_Холодков_СПЕКТР.pdf",
+      "sha256": "492aa36b2da420e2638555ee539f122c1014eef61875a8b0bc6899cce190e4ac",
+      "bytes": 184145
+    }
+  ]
+}
