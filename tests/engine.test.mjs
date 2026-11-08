@@ -67,6 +67,45 @@ test('Повтор результата без защиты искажает о�
   assert.equal(unsafe.metrics.violations, 1);
 });
 
+test('Каждый отложенный повтор обрабатывается один раз и не создаёт новую инъекцию сбоя', () => {
+  for (const protection of [false, true]) {
+    const sim = createSimulation({ protection });
+    sim.inject('duplicate');
+    sim.step(1);
+    sim.inject('duplicate');
+    const s = sim.run();
+    const injections = s.events.filter(e => e.type === 'FAULT_INJECTED');
+    const deliveries = s.events.filter(e => e.type === 'DEFERRED_DUPLICATE_APPLIED');
+    assert.deepEqual(injections.map(e => [e.faultType, e.tick]), [['duplicate', 0], ['duplicate', 1]]);
+    assert.equal(s.faults.length, 2);
+    assert.deepEqual(deliveries.map(e => e.injectedTick), [0, 1]);
+    assert(deliveries.every(e => e.tick > e.injectedTick));
+    assert.deepEqual(s.deferredDuplicates, []);
+    if (protection) {
+      assert.equal(s.metrics.prevented, 2);
+      assert.equal(s.metrics.violations, 0);
+      assert.equal(s.metrics.completed, s.metrics.validCompleted);
+    } else {
+      assert.equal(s.metrics.violations, 2);
+      assert.equal(s.metrics.undetected, 2);
+      assert.equal(s.metrics.completed - s.metrics.validCompleted, 2);
+    }
+  }
+});
+
+test('Отложенные повторы остаются в трассе, если смена закончилась до первого результата', () => {
+  const sim = createSimulation({ horizon: 30 });
+  sim.inject('ghost'); sim.inject('ghost'); sim.inject('ghost');
+  sim.inject('robot'); sim.inject('robot');
+  sim.inject('duplicate'); sim.inject('duplicate');
+  const s = sim.run();
+  assert.equal(s.metrics.completed, 0);
+  assert.deepEqual(s.deferredDuplicates, [0, 0]);
+  assert.equal(s.events.filter(e => e.type === 'FAULT_INJECTED' && e.faultType === 'duplicate').length, 2);
+  assert(!s.events.some(e => e.type === 'DEFERRED_DUPLICATE_APPLIED'));
+  assert.deepEqual(sim.inject('duplicate'), s, 'После конца смены сбой не изменяет состояние');
+});
+
 test('Ложное завершение принимается без проверки и отклоняется с проверкой состояния', () => {
   const safe = createSimulation({ scenario: 'misreport', protection: true }).run();
   const unsafe = createSimulation({ scenario: 'misreport', protection: false }).run();
@@ -101,6 +140,27 @@ test('Проверка недостоверного прибора запуск�
   assert.equal(safe.metrics.badResults, 0); assert(unsafe.metrics.badResults > 0);
 });
 
+test('Полный перезапуск прерванной работы не наследует недостоверность отменённой попытки', () => {
+  const sim = createSimulation({ seed: 1, scenario: 'device', protection: true });
+  const stopped = sim.step(37);
+  const interrupted = stopped.tasks.find(t => t.id === 'T02');
+  assert.equal(interrupted.status, 'queued');
+  assert.equal(interrupted.corrupted, true, 'Первая попытка действительно затронута отказом');
+  assert.equal(stopped.equipment.find(e => e.id === 'eq2').status, 'offline');
+  const restarted = sim.step(36);
+  const fresh = restarted.tasks.find(t => t.id === 'T02');
+  assert.equal(fresh.status, 'running');
+  assert.equal(fresh.startedTick, 73);
+  assert.equal(fresh.remaining, fresh.duration);
+  assert.equal(fresh.corrupted, false, 'Полное измерение после ремонта начинает новую попытку');
+  const s = sim.run();
+  const finished = s.tasks.find(t => t.id === 'T02');
+  assert.equal(finished.actualValid, true);
+  assert.equal(finished.finishedTick, 99);
+  assert.equal(finished.retries, 0);
+  assert.deepEqual(s.events.filter(e => e.type === 'QUALITY_REJECT').map(e => e.task), ['T01']);
+});
+
 test('Отказ робота приводит к переназначению только после проверки heartbeat', () => {
   const safe = createSimulation({ protection: true }); safe.step(4); safe.inject('robot'); const safeEnd = safe.run();
   const unsafe = createSimulation({ protection: false }); unsafe.step(4); unsafe.inject('robot'); const unsafeEnd = unsafe.run();
@@ -119,6 +179,29 @@ test('Факторный эксперимент использует одина�
     assert(rows.every(r => r.protection === true && r.scenario === 'ghost' && r.horizon === 150));
     assert.deepEqual(rows.map(r => [r.allocation, r.negotiation]), [['central', false], ['central', true], ['contract', false], ['contract', true]]);
   }
+});
+
+test('Метаданные эксперимента содержат эффективные настройки и уникальные нормализованные seed', () => {
+  const experiment = runExperiment({ seeds: [-1.7, 4294967295, 1.8, 1, NaN, Infinity], scenario: 'unknown', horizon: 1, protection: 0 });
+  assert.deepEqual(experiment.design.pairedSeeds, [4294967295, 1]);
+  assert.equal(experiment.rows.length, 8);
+  for (const record of [experiment.design, ...experiment.rows, ...experiment.summary]) {
+    assert.equal(record.scenario, 'normal');
+    assert.equal(record.horizon, 30);
+    assert.equal(record.protection, true);
+  }
+  for (const seed of experiment.design.pairedSeeds) {
+    const rows = experiment.rows.filter(r => r.seed === seed);
+    assert.equal(rows.length, 4);
+    for (const row of rows) {
+      const actual = createSimulation(row).run();
+      for (const [key, value] of Object.entries(actual.config)) assert.equal(row[key], value);
+      for (const [key, value] of Object.entries(actual.metrics)) assert.equal(row[key], value);
+    }
+  }
+  assert(experiment.summary.every(row => row.runs === 2));
+  assert.throws(() => runExperiment({ seeds: [] }), /хотя бы одного конечного seed/);
+  assert.throws(() => runExperiment({ seeds: [NaN, Infinity] }), /хотя бы одного конечного seed/);
 });
 
 test('Трасса содержит исходную нагрузку, все сообщения, события и конечные метрики', () => {
