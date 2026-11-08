@@ -1,10 +1,14 @@
 {
   "model": "spectr-discrete-fictional-laboratory",
-  "capturedAt": "2026-11-08T10:59:12.393Z",
+  "capturedAt": "2026-11-08T11:20:06.508Z",
   "node": "v24.22.1",
   "hashes": {
-    "dist/engine.js": "9c5d2007728b6f080e449255367f28313d3ffe45bd999bb54fadc9f595f3b83b",
-    "experiments.mjs": "7ac548cddf9c379852eb02c39596a2eeeee01f87249e230684090d6aff8c72d9"
+    "dist/engine.js": "47992e93ba0c1c03ac5b270a6388ab789e324b823c25f1090608a33164c361b7",
+    "experiments.mjs": "7ac548cddf9c379852eb02c39596a2eeeee01f87249e230684090d6aff8c72d9",
+    "tools/capture_evidence.mjs": "31696272899564e4ed4ec252a2c43fd93054c36e6bc531247b5b9d6d377a145b",
+    "results/reliability/experiment.json": "dc6706a2045cb3d52fb2af7d4127d1278767d5113b5858345cbd61ae1a021cfd",
+    "results/reliability/runs.csv": "2280e1ea73a0a3911084e09d52ecd1cfe90918038a24cab223f57528bca9275e",
+    "results/reliability/summary.csv": "926d7d477119f3b7aeea23dbc6efa42b8b86e4e0860956df561ed6495bfe3361"
   },
   "testsExitCode": 0,
   "experiment": {
@@ -39,7 +43,8 @@
       "duplicate",
       "misreport"
     ],
-    "runs": 800
+    "runs": 800,
+    "verifiedAgainstEngine": true
   },
   "metricDefinitions": {
     "completed": "Принятые сообщения результатов, включая принятые повторы без защиты.",
