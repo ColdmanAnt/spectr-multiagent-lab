@@ -1,0 +1,39 @@
+{
+  "version": "1.1.0",
+  "date": "2026-11-11",
+  "tests": {
+    "total": 28,
+    "engine": 18,
+    "analytics": 10,
+    "failed": 0,
+    "output": "results/interface-test-output.txt"
+  },
+  "engineAndExperimentHashesUnchanged": true,
+  "allEightReportHashesUnchanged": true,
+  "browserChecks": [
+    "launch presets",
+    "plus-ten ticks",
+    "keyboard navigation",
+    "program filter",
+    "sample event passport",
+    "invalid accepted result passport",
+    "control pin and restart",
+    "different tick comparison blocked",
+    "align to control tick",
+    "interim JSON fields vs engine and analytics",
+    "complete device scenario and final JSON vs engine and analytics",
+    "no terminal forecasts",
+    "390x844 responsive layout",
+    "no console warnings or errors in checked actions"
+  ],
+  "hashes": {
+    "dist/engine.js": "47992e93ba0c1c03ac5b270a6388ab789e324b823c25f1090608a33164c361b7",
+    "dist/analytics.js": "ae91f2bac660bcec715661a7bbc8f72e558cfbbad58c52edd89321c8996be31e",
+    "dist/app.js": "22a1af1cfd20bcc744919ada866f6c2efee9ad321b9d0cad3a928e5042c7cbd8",
+    "dist/index.html": "d298a4544c7a6f3ab279c1138acf904eaf5307e9a1b9ecf435bfb53cc4c77dc4",
+    "dist/style.css": "31cf6b9c2ce09d393f1627dd64a76ce53ae633cf90c5759b5cb5048f03d1446e",
+    "tests/analytics.test.mjs": "071f5592ee49e823e065c5bf80f83dc69133850f28269a0d279d402594b993ed",
+    "results/interface-test-output.txt": "2f2463309aa8e86566527aeb90225fb20cf2326c0fb246e01658e709cdaa52bb"
+  },
+  "limits": "Forecasts freeze current known queues. Browser QA covers the listed actions in the in-app browser, not all browsers. Publication and archive are checked separately."
+}
