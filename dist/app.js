@@ -1,3 +1,4 @@
+import { analyseShift, taskHistory } from './analytics.js';
 import { createSimulation, runExperiment, SCENARIOS, AGENT_INFO } from './engine.js';
 
 const $ = (id) => document.getElementById(id);
@@ -151,8 +152,82 @@ function renderFaults() {
   $('fault-list').innerHTML=state.faults.length?state.faults.slice(-5).reverse().map(f=>`<div class="fault-item"><span class="pill pill--warning">Такт ${f.tick}</span><p>${esc(f.description || f.type)}</p></div>`).join(''):'<div class="empty-state">Вмешательств пока нет. Выберите сценарий или добавьте сбой вручную.</div>';
 }
 
+const riskNames = {unreleased:'Ещё не опубликовано',unplanned:'Без назначения',completed:'Завершено',invalid:'Ошибочный зачёт',blocked:'Нет оценки',late:'Риск просрочки',tight:'Малый запас',ontrack:'В пределах срока'};
+const eventNames = {ASSIGNED:'Оборудование назначено',TRANSPORT_STARTED:'Началась доставка',DELIVERED:'Контейнер доставлен',STARTED:'Началось измерение',RESULT_ACCEPTED:'Результат принят',RESULT_REJECTED:'Результат отклонён',QUALITY_REJECT:'Назначено повторное измерение',REASSIGNED:'Доставка переназначена',SLOT_SWAP:'Изменена очередь',DUPLICATE_ACCEPTED:'Повтор принят без защиты',DEFERRED_DUPLICATE_APPLIED:'Доставлен отложенный повтор'};
+const programGoals = {g1:'Ценные длительные измерения и серии спектров.',g2:'Короткие сроки и оперативные контрольные серии.',g3:'Равномерное выполнение собственного плана.'};
+let analytics, controlSnapshot = null;
+function workloadKey() {
+  return JSON.stringify(state.tasks.map(t=>[t.id,t.group,t.release,t.deadline,t.duration,t.value,t.compatible]));
+}
+function snapshot() {
+  return {tick:state.tick,config:structuredClone(state.config),metrics:structuredClone(state.metrics),workload:workloadKey(),faults:structuredClone(state.faults)};
+}
+function comparisonReady() {
+  return !!controlSnapshot && controlSnapshot.tick===state.tick && controlSnapshot.config.seed===state.config.seed && controlSnapshot.config.horizon===state.config.horizon && controlSnapshot.workload===workloadKey();
+}
+function describeConfig(config) {
+  return `${config.allocation==='central'?'Диспетчер':'Контрактная сеть'} · переговоры ${config.negotiation?'вкл.':'выкл.'} · защита ${config.protection?'вкл.':'выкл.'} · ${SCENARIOS.find(s=>s.id===config.scenario)?.name||config.scenario}`;
+}
+function faultHistory(faults) {
+  const labels={device:'прибор',robot:'робот',ghost:'бронь',duplicate:'повтор',misreport:'ложный отчёт'};
+  return faults.length?faults.map(f=>`${labels[f.type]||f.type}@${f.tick}`).join(', '):'нет';
+}
+function renderOperational() {
+  analytics=analyseShift(state);
+  const m=state.metrics, a=analytics.summary;
+  $('hero-count').textContent=String(m.validCompleted).padStart(2,'0');
+  $('hero-state').textContent=state.done?'Смена завершена':`Такт ${state.tick} · ${state.tasks.filter(t=>t.release<=state.tick&&t.status!=='completed').length} активных заявок`;
+  $('hero-description').textContent=SCENARIOS.find(s=>s.id===state.config.scenario)?.description||'';
+  const bad=m.undetected>0;
+  const title=state.done?'Итоги смены':bad?'Нужна проверка результатов':a.blocked?'Есть неопределённость сроков':a.atRisk?'Сроки требуют внимания':'Оперативная обстановка';
+  const text=state.done?`Достоверно завершено ${m.validCompleted} из ${state.tasks.length}. В срок — ${m.onTime}. Ошибочных зачётов — ${m.undetected}.`:bad?`Принято ${m.undetected} ошибочных зачётов. Разберите события в паспортах образцов.`:`${a.atRisk} заявок с риском по сроку или неизвестным завершением. ${a.blocked} ожидают снятия ограничения.`;
+  $('shift-alert').innerHTML=`<div class="alert-content" data-level="${bad?'danger':a.atRisk?'warning':'normal'}"><strong>${esc(title)}</strong><span>${esc(text)}</span><button type="button" class="text-action" data-open-tab="analytics">${state.done?'Разобрать результаты':'Подробнее'} ↗</button></div>`;
+  if(activeTab==='analytics')renderAnalytics();
+}
+function renderAnalytics() {
+  const a=analytics.summary;
+  $('analytics-kpis').innerHTML=[['Активных заявок',a.active,'Опубликованы и ещё не завершены'],['Требуют внимания',a.atRisk,'Сроки или неизвестное завершение'],['Узкое место',a.bottleneck?names[a.bottleneck]:'—','Блокировка или наибольшая нагрузка'],['Полезность',num(state.metrics.utility,2),'Фактическая, с учётом ожидания']].map(([label,value,note])=>`<article class="analysis-kpi"><span>${esc(label)}</span><strong>${esc(value)}</strong><small>${esc(note)}</small></article>`).join('');
+  const filter=$('program-filter').value;
+  $('program-cards').innerHTML=analytics.programs.map(p=>`<button type="button" class="program-card ${filter===p.id?'selected':''}" style="--program-color:${colors[p.id]}" data-program="${p.id}" aria-pressed="${filter===p.id}"><span class="program-code">ПРОГРАММА / ${p.id.toUpperCase()}</span><h3>${esc(p.name)}</h3><p>${esc(programGoals[p.id])}</p><div class="program-progress"><strong>${p.completed}</strong> / ${p.total} подтверждено</div><div class="program-progress-track"><i style="width:${p.completed/p.total*100}%"></i></div><div class="program-detail"><span><strong>${p.atRisk}</strong> требуют внимания</span><span><strong>${num(p.credits)}</strong> кредитов</span></div></button>`).join('');
+  document.querySelector('.schedule-note').textContent=state.done?'Смена завершена. Показан остаток работ; прогноз завершения больше не строится.':'Оценка при неизменной очереди. Новые заявки, переговоры, сбои и повторные измерения могут изменить сроки. «Нет оценки» означает неизвестное время доставки или блокировку.';
+  $('schedule-tick').textContent=`Снимок на такте ${state.tick}`;
+  const max=Math.max(state.tick+30,...analytics.equipment.flatMap(e=>e.segments.map(s=>s.end).filter(Number.isFinite)));
+  const span=max-state.tick;
+  $('equipment-schedule').innerHTML=analytics.equipment.map(e=>{
+    const segments=e.segments.filter(s=>Number.isFinite(s.end)&&s.end>state.tick);
+    return `<div class="schedule-row"><div class="schedule-resource"><strong>${esc(names[e.id])}</strong><small>${num(e.queuedWork)} тактов в работе и очереди</small></div><div class="schedule-track" aria-label="${esc(names[e.id])}: ${e.blocked?'часть очереди без оценки':'прогноз до такта '+e.finish}">${segments.map(s=>`<${s.task&&state.tasks.some(t=>t.id===s.task)?'button type="button" data-task="'+s.task+'"':'span'} class="schedule-segment" data-kind="${s.kind}" style="left:${Math.max(0,s.start-state.tick)/span*100}%;width:${(s.end-Math.max(state.tick,s.start))/span*100}%" title="${esc(s.task||s.kind)} · ${s.start}–${s.end}">${esc(s.task||'Проверка')}</${s.task&&state.tasks.some(t=>t.id===s.task)?'button':'span'}>`).join('')}</div><span class="schedule-result ${e.blocked?'blocked':''}">${state.done?(e.blocked?'Не завершено':'Работы окончены'):e.blocked?'Часть очереди<br>без оценки':`До такта ${e.finish}`}</span></div>`;
+  }).join('')+(state.done?'':`<div class="schedule-axis"><span></span><div><span>${state.tick}</span><span>${Math.round(state.tick+span/2)}</span><span>${max}</span></div><span>такты</span></div>`);
+  const ranks={invalid:0,blocked:1,late:2,tight:3,unplanned:4,ontrack:5,unreleased:6,completed:7};
+  const risks=analytics.tasks.filter(t=>{const task=state.tasks.find(x=>x.id===t.id);return task.release<=state.tick&&(filter==='all'||task.group===filter)&&t.risk!=='completed';}).sort((a,b)=>ranks[a.risk]-ranks[b.risk]||(a.slack??Infinity)-(b.slack??Infinity));
+  $('risk-list').innerHTML=risks.length?risks.map(t=>`<button type="button" class="risk-row" data-task="${t.id}"><div><strong>${esc(t.id)} · ${esc(names[state.tasks.find(x=>x.id===t.id).group])}</strong><p>${esc(t.reason)}${t.estimatedFinish!==null?` · оценка: такт ${t.estimatedFinish}, запас ${t.slack}`:''}</p></div><span class="risk-status" data-risk="${t.risk}">${esc(riskNames[t.risk])}</span></button>`).join(''):'<div class="empty-state">Все опубликованные исследования этой программы завершены достоверно.</div>';
+  renderComparison();
+  const decisions=state.messages.filter(m=>['ASSIGN','AWARD','BID','OFFER','COUNTER','ACCEPT','REJECT','QUALITY_REJECT','REASSIGN','REJECT_RESULT','LEASE_EXPIRED'].includes(m.type)).slice(-6).reverse();
+  $('decision-feed').innerHTML=decisions.length?decisions.map(m=>`<article class="decision-item"><span>${String(m.tick).padStart(3,'0')}</span><div><strong>${esc(names[m.from]||m.from)} → ${esc(names[m.to]||m.to)} · ${esc(m.type)}</strong><p>${esc(m.text)}</p></div></article>`).join(''):'<div class="empty-state">Выполните несколько тактов: здесь появятся назначения, предложения и решения контроля.</div>';
+}
+function renderComparison() {
+  const host=$('comparison-content');
+  if(!controlSnapshot){host.innerHTML='<span class="comparison-empty-icon" aria-hidden="true">⇄</span><p>Сохраните текущее состояние как контроль, начните другую смену с тем же seed и сравните результат на том же такте.</p><p>Можно проверить эффект переговоров, способа координации или защиты. Контроль хранится до закрытия страницы.</p>';return;}
+  const c=controlSnapshot;
+  const details=`<div class="comparison-config"><strong>Контроль: такт ${c.tick} · seed ${c.config.seed}</strong><br>${esc(describeConfig(c.config))}<br>Сбои контроля: ${esc(faultHistory(c.faults))}.<br>Сейчас: ${esc(describeConfig(state.config))}<br>Сбои текущей смены: ${esc(faultHistory(state.faults))}.</div>`;
+  const buttons=`<div class="comparison-buttons">${state.tick<c.tick&&state.config.seed===c.config.seed&&state.config.horizon===c.config.horizon?'<button type="button" class="button button-light" id="align-btn">К такту контроля</button>':''}<button type="button" class="text-action" id="clear-control-btn">Удалить контроль</button></div>`;
+  if(!comparisonReady()){host.innerHTML=details+`<p>Для сопоставления нужны одинаковые задачи, seed, горизонт и такт. Сейчас: такт ${state.tick} / seed ${state.config.seed}; контроль: такт ${c.tick} / seed ${c.config.seed}.</p>`+buttons;return;}
+  const measures=[['Достоверных','validCompleted',0],['Полезность','utility',2],['Справедливость','fairness',3],['Сообщений','messages',0],['Ошибочных зачётов','undetected',0]];
+  host.innerHTML=details+'<p>Разница: текущая смена минус контроль. Одиночное сравнение описывает этот seed.</p><div class="comparison-deltas">'+measures.map(([label,key,d])=>{const diff=state.metrics[key]-c.metrics[key];return `<div><span>${label}</span><strong data-direction="${diff<0?'negative':'normal'}">${diff>0?'+':''}${num(diff,d)}</strong></div>`;}).join('')+'</div>'+buttons;
+}
+function preparePreset(id) {
+  const presets={baseline:{allocation:'central',negotiation:false,scenario:'normal'},contracts:{allocation:'contract',negotiation:true,scenario:'normal'},resilience:{allocation:'central',negotiation:true,scenario:'device'}};
+  const p=presets[id];if(!p)return;
+  $('allocation-select').value=p.allocation;$('negotiation-toggle').checked=p.negotiation;$('scenario-select').value=p.scenario;$('protection-toggle').checked=true;
+  reset();toast('Новая смена подготовлена. Нажмите «Запустить» или выполните такт.');
+}
+function exportBrief() {
+  pause();
+  const brief={schemaVersion:1,applicationVersion:'1.1.0',kind:state.done?'final':'interim',tick:state.tick,config:state.config,metrics:state.metrics,groups:state.groups,faults:state.faults,analytics,forecastAssumptions:'Текущая очередь, известная доставка и диагностика; будущие назначения, переговоры, сбои и повторы не моделируются. null означает отсутствие оценки. После завершения смены будущие сроки не строятся.',control:controlSnapshot,comparable:comparisonReady()};
+  download(`spectr-brief-${state.config.seed}-t${state.tick}.json`,JSON.stringify(brief,null,2),'application/json');toast('Оперативная сводка сохранена.');
+}
+
 function render() {
-  renderMetrics(); renderMap(); renderTasks(); renderMessages(); renderEquipment(); renderTimeline(); renderFaults();
+  renderOperational(); renderMetrics(); renderMap(); renderTasks(); renderMessages(); renderEquipment(); renderTimeline(); renderFaults();
   if(activeTab==='agents') renderAgents();
   if($('progress-label')) $('progress-label').textContent=`Такт ${state.tick} / ${state.horizon}`;
   if($('progress-fill')) $('progress-fill').style.width=`${Math.min(100,state.tick/state.horizon*100)}%`;
@@ -167,7 +242,10 @@ function showDetail(type,id) {
   const field=(title,value)=>`<div class="detail-item"><span>${esc(title)}</span><p>${esc(Array.isArray(value)?value.join('; '):value)}</p></div>`;
   if(type==='task') {
     const t=state.tasks.find(t=>t.id===id); if(!t)return;
-    html=`<span class="eyebrow">Карточка исследования</span><h2>${esc(t.id)} · ${esc(t.title)}</h2><div class="detail-grid">${field('Группа',names[t.group] || t.group)}${field('Установка',names[t.equipment] || t.equipment)}${field('Состояние',t.status==='completed'&&!t.actualValid?'Ошибочный зачёт':statuses[t.status]||t.status)}${field('Достоверность по состоянию модели',t.actualValid===null?'Результат ещё не получен':t.actualValid?'Достоверен':'Недостоверен')}${field('Число зачётов результата',t.acceptedCount)}${field('Появление / дедлайн',t.release+' / '+t.deadline+' тактов')}${field('Длительность',t.duration+' тактов')}${field('Полезность',t.value)}${field('Робот',t.robot||'Не назначен')}${field('Осталось',t.remaining??'—')}</div>`;
+    html=`<span class="eyebrow">Паспорт образца</span><h2>${esc(t.id)} · ${esc(t.title)}</h2><div class="detail-grid">${field('Группа',names[t.group] || t.group)}${field('Установка',names[t.equipment] || t.equipment)}${field('Состояние',t.status==='completed'&&!t.actualValid?'Ошибочный зачёт':statuses[t.status]||t.status)}${field('Достоверность по состоянию модели',t.actualValid===null?'Результат ещё не получен':t.actualValid?'Достоверен':'Недостоверен')}${field('Число зачётов результата',t.acceptedCount)}${field('Появление / дедлайн',t.release+' / '+t.deadline+' тактов')}${field('Длительность',t.duration+' тактов')}${field('Ценность результата в срок',t.value)}${field('Робот',t.robot||'Не назначен')}${field('Осталось измерять',t.status==='running'?t.remaining+' такт.':t.status==='verifying'?'Измерение окончено':'—')}</div>`;
+    const forecast=analytics.tasks.find(x=>x.id===id);
+    const history=taskHistory(state,id);
+    html+=`<div class="passport-forecast"><strong>${esc(riskNames[forecast.risk])}${forecast.estimatedFinish!==null?' · такт '+forecast.estimatedFinish:''}</strong>${esc(forecast.reason)}${forecast.slack!==null?' · запас до срока: '+forecast.slack+' такт.':''}</div><h3 class="passport-heading">Фактическая история образца</h3><ol class="passport-history"><li><time>${t.release}</time><div><strong>${t.release<=state.tick?'Заявка опубликована':'Публикация запланирована'}</strong><small>Срок ${t.deadline} · длительность ${t.duration} тактов · повторов ${t.retries}</small></div></li>${history.map(e=>`<li data-alert="${['QUALITY_REJECT','RESULT_REJECTED','DUPLICATE_ACCEPTED'].includes(e.type)||(e.type==='RESULT_ACCEPTED'&&!e.actualValid)}"><time>${e.tick}</time><div><strong>${esc(eventNames[e.type]||e.type)}</strong><small>${esc(e.type==='RESULT_ACCEPTED'?(e.actualValid?'Достоверный результат':'Результат недостоверен по состоянию модели'):[e.equipment?names[e.equipment]:null,e.robot?names[e.robot]:null,e.credits!==undefined?'Компенсация '+e.credits+' кредитов':null,e.reason].filter(Boolean).join(' · '))}</small></div></li>`).join('')}</ol>`;
   } else {
     const a=AGENT_INFO.find(a=>a.id===id); if(!a)return;
     html=`<span class="eyebrow">Автономный агент · ${esc(a.id)}</span><h2>${esc(a.name)}</h2><div class="detail-grid">${field('Роль',a.role)}${field('Личная цель',a.goal)}${field('Локальные знания',a.knowledge)}${field('Действия',a.actions)}</div>`;
@@ -225,15 +303,20 @@ function setTab(tab) {
   activeTab=tab;
   document.querySelectorAll('[data-tab]').forEach(el=>{el.classList.toggle('active',el.dataset.tab===tab);el.setAttribute('aria-selected',String(el.dataset.tab===tab));el.tabIndex=el.dataset.tab===tab?0:-1;});
   document.querySelectorAll('[data-panel]').forEach(el=>{el.classList.toggle('active',el.dataset.panel===tab);el.hidden=el.dataset.panel!==tab;});
-  const titles={overview:'Центр управления',agents:'Агенты и взаимодействия',experiments:'Исследование механизмов',guide:'Как устроена система'};
+  const titles={analytics:'Аналитика смены',overview:'Центр управления',agents:'Агенты и взаимодействия',experiments:'Исследование механизмов',guide:'Как устроена система'};
   if($('page-title')) $('page-title').textContent=titles[tab]||titles.overview;
   if(tab==='agents')renderAgents();
+  if(tab==='analytics')renderAnalytics();
 }
 
 function init() {
   if($('scenario-select')) $('scenario-select').innerHTML=SCENARIOS.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
   $('play-btn')?.addEventListener('click',play);
   $('step-btn')?.addEventListener('click',()=>{pause();if(state.done)reset();advance();});
+  $('jump-btn')?.addEventListener('click',()=>{pause();if(state.done)reset();advance(10);});
+  $('pin-btn')?.addEventListener('click',()=>{pause();controlSnapshot=snapshot();renderComparison();toast('Контроль сохранён. Повторите тот же seed с другими настройками.');});
+  $('brief-btn')?.addEventListener('click',exportBrief);
+  $('program-filter')?.addEventListener('change',renderAnalytics);
   $('reset-btn')?.addEventListener('click',()=>reset(true));
   $('speed-select')?.addEventListener('change',()=>{if(timer){pause();play();}});
   ['seed-input','allocation-select','scenario-select','negotiation-toggle','protection-toggle'].forEach(id=>$(id)?.addEventListener('change',()=>reset(true)));
@@ -244,6 +327,11 @@ function init() {
   $('detail-dialog')?.addEventListener('click',event=>{if(event.target===$('detail-dialog'))$('detail-dialog').close();});
   document.addEventListener('click',event=>{
     const tab=event.target.closest('[data-tab]');if(tab)setTab(tab.dataset.tab);
+    const open=event.target.closest('[data-open-tab]');if(open){setTab(open.dataset.openTab);$('tab-'+open.dataset.openTab)?.focus();}
+    const preset=event.target.closest('[data-preset]');if(preset)preparePreset(preset.dataset.preset);
+    const program=event.target.closest('[data-program]');if(program){$('program-filter').value=$('program-filter').value===program.dataset.program?'all':program.dataset.program;renderAnalytics();}
+    if(event.target.closest('#clear-control-btn')){controlSnapshot=null;renderComparison();}
+    if(event.target.closest('#align-btn')&&controlSnapshot&&state.tick<controlSnapshot.tick){pause();advance(controlSnapshot.tick-state.tick);}
     const fault=event.target.closest('[data-inject]');if(fault){if(state.done)return toast('Начните новую смену для проверки сбоя.');state=sim.inject(fault.dataset.inject)||sim.getState();render();toast('Сбой добавлен. Решения агентов появятся в журнале.');}
     const filter=event.target.closest('[data-filter]');if(filter){messageFilter=filter.dataset.filter;document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('active',b===filter));renderMessages();}
     const agent=event.target.closest('[data-agent]');if(agent)showDetail('agent',agent.dataset.agent);
