@@ -1,0 +1,343 @@
+{
+  "schemaVersion": 1,
+  "engineSHA256": "47992e93ba0c1c03ac5b270a6388ab789e324b823c25f1090608a33164c361b7",
+  "config": {
+    "scenario": "normal",
+    "negotiation": false,
+    "protection": true,
+    "horizon": 180,
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "allocations": [
+      "central",
+      "contract"
+    ]
+  },
+  "definitions": {
+    "meanCompletionTime": "В каждом прогоне: среднее finishedTick − release среди уникальных достоверно завершенных задач. В сводке: среднее этих значений и выборочное SD по 20 прогонам.",
+    "unfinished": "Число задач без достоверного завершения к такту 180; в условное среднее времени не включаются.",
+    "interpretation": "Время относится только к завершенным задачам. Сравнивать вместе с completed и unfinished: разные механизмы завершают разные подмножества задач."
+  },
+  "rows": [
+    {
+      "seed": 1,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 82.52173913043478
+    },
+    {
+      "seed": 2,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 74.95652173913044
+    },
+    {
+      "seed": 3,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 81
+    },
+    {
+      "seed": 4,
+      "allocation": "central",
+      "completed": 22,
+      "unfinished": 2,
+      "meanCompletionTime": 80.36363636363636
+    },
+    {
+      "seed": 5,
+      "allocation": "central",
+      "completed": 24,
+      "unfinished": 0,
+      "meanCompletionTime": 80.54166666666667
+    },
+    {
+      "seed": 6,
+      "allocation": "central",
+      "completed": 24,
+      "unfinished": 0,
+      "meanCompletionTime": 79.16666666666667
+    },
+    {
+      "seed": 7,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 80.17391304347827
+    },
+    {
+      "seed": 8,
+      "allocation": "central",
+      "completed": 21,
+      "unfinished": 3,
+      "meanCompletionTime": 73.52380952380952
+    },
+    {
+      "seed": 9,
+      "allocation": "central",
+      "completed": 24,
+      "unfinished": 0,
+      "meanCompletionTime": 80.95833333333333
+    },
+    {
+      "seed": 10,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 76.47826086956522
+    },
+    {
+      "seed": 11,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 80.17391304347827
+    },
+    {
+      "seed": 12,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 81.30434782608695
+    },
+    {
+      "seed": 13,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 76.43478260869566
+    },
+    {
+      "seed": 14,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 76
+    },
+    {
+      "seed": 15,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 74.26086956521739
+    },
+    {
+      "seed": 16,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 84.1304347826087
+    },
+    {
+      "seed": 17,
+      "allocation": "central",
+      "completed": 24,
+      "unfinished": 0,
+      "meanCompletionTime": 80.91666666666667
+    },
+    {
+      "seed": 18,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 79.43478260869566
+    },
+    {
+      "seed": 19,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 81.43478260869566
+    },
+    {
+      "seed": 20,
+      "allocation": "central",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 79.73913043478261
+    },
+    {
+      "seed": 1,
+      "allocation": "contract",
+      "completed": 22,
+      "unfinished": 2,
+      "meanCompletionTime": 82.18181818181819
+    },
+    {
+      "seed": 2,
+      "allocation": "contract",
+      "completed": 21,
+      "unfinished": 3,
+      "meanCompletionTime": 79.76190476190476
+    },
+    {
+      "seed": 3,
+      "allocation": "contract",
+      "completed": 20,
+      "unfinished": 4,
+      "meanCompletionTime": 87.35
+    },
+    {
+      "seed": 4,
+      "allocation": "contract",
+      "completed": 19,
+      "unfinished": 5,
+      "meanCompletionTime": 92.73684210526316
+    },
+    {
+      "seed": 5,
+      "allocation": "contract",
+      "completed": 21,
+      "unfinished": 3,
+      "meanCompletionTime": 83.85714285714286
+    },
+    {
+      "seed": 6,
+      "allocation": "contract",
+      "completed": 20,
+      "unfinished": 4,
+      "meanCompletionTime": 93.35
+    },
+    {
+      "seed": 7,
+      "allocation": "contract",
+      "completed": 19,
+      "unfinished": 5,
+      "meanCompletionTime": 87.73684210526316
+    },
+    {
+      "seed": 8,
+      "allocation": "contract",
+      "completed": 19,
+      "unfinished": 5,
+      "meanCompletionTime": 85.94736842105263
+    },
+    {
+      "seed": 9,
+      "allocation": "contract",
+      "completed": 23,
+      "unfinished": 1,
+      "meanCompletionTime": 86
+    },
+    {
+      "seed": 10,
+      "allocation": "contract",
+      "completed": 20,
+      "unfinished": 4,
+      "meanCompletionTime": 82.8
+    },
+    {
+      "seed": 11,
+      "allocation": "contract",
+      "completed": 19,
+      "unfinished": 5,
+      "meanCompletionTime": 93.89473684210526
+    },
+    {
+      "seed": 12,
+      "allocation": "contract",
+      "completed": 20,
+      "unfinished": 4,
+      "meanCompletionTime": 87.3
+    },
+    {
+      "seed": 13,
+      "allocation": "contract",
+      "completed": 21,
+      "unfinished": 3,
+      "meanCompletionTime": 88.33333333333333
+    },
+    {
+      "seed": 14,
+      "allocation": "contract",
+      "completed": 20,
+      "unfinished": 4,
+      "meanCompletionTime": 86.6
+    },
+    {
+      "seed": 15,
+      "allocation": "contract",
+      "completed": 21,
+      "unfinished": 3,
+      "meanCompletionTime": 81.42857142857143
+    },
+    {
+      "seed": 16,
+      "allocation": "contract",
+      "completed": 20,
+      "unfinished": 4,
+      "meanCompletionTime": 83.65
+    },
+    {
+      "seed": 17,
+      "allocation": "contract",
+      "completed": 21,
+      "unfinished": 3,
+      "meanCompletionTime": 82.76190476190476
+    },
+    {
+      "seed": 18,
+      "allocation": "contract",
+      "completed": 19,
+      "unfinished": 5,
+      "meanCompletionTime": 84.57894736842105
+    },
+    {
+      "seed": 19,
+      "allocation": "contract",
+      "completed": 22,
+      "unfinished": 2,
+      "meanCompletionTime": 82.0909090909091
+    },
+    {
+      "seed": 20,
+      "allocation": "contract",
+      "completed": 19,
+      "unfinished": 5,
+      "meanCompletionTime": 83.84210526315789
+    }
+  ],
+  "summary": [
+    {
+      "allocation": "central",
+      "runs": 20,
+      "runsWithCompletion": 20,
+      "completedMean": 23.05,
+      "unfinishedMean": 0.95,
+      "meanCompletionTimeMean": 79.17571287408246,
+      "meanCompletionTimeSD": 2.895969330101035
+    },
+    {
+      "allocation": "contract",
+      "runs": 20,
+      "runsWithCompletion": 20,
+      "completedMean": 20.3,
+      "unfinishedMean": 3.7,
+      "meanCompletionTimeMean": 85.81012132604236,
+      "meanCompletionTimeSD": 3.977148287173354
+    }
+  ]
+}
