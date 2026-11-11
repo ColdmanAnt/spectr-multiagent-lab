@@ -5,14 +5,5 @@ __pycache__/
 .env
 .env.*
 !.env.example
-.openai/*.local.*
+.openai/
 work/
-
-# Local development notes and generated verification receipts
-CONTRACT.md
-docs/audit.md
-docs/lab-report-guide.md
-reports/report-build.json
-reports/verification.json
-results/interface-verification.json
-results/interface-test-output.txt

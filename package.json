@@ -6,7 +6,10 @@
   "description": "Воспроизводимый многоагентный симулятор исследовательской лаборатории",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test tests/*.test.mjs",
+    "test": "node --test tests/engine.test.mjs tests/analytics.test.mjs",
     "experiment": "node experiments.mjs"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
