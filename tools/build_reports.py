@@ -11,6 +11,7 @@ import hashlib
 import math
 import re
 import statistics as st
+import argparse
 from PIL import Image, ImageDraw, ImageFont
 from docx import Document
 from docx.shared import Cm, Pt, RGBColor
@@ -33,6 +34,17 @@ TEST_COUNT = int(re.search(r'\btests\s+(\d+)', (ROOT / 'results/test-output.txt'
 SHA = hashlib.sha256((ROOT / 'dist/engine.js').read_bytes()).hexdigest()
 assert SHA == MANIFEST['hashes']['dist/engine.js'], 'Engine changed: rerun experiments and capture_evidence first'
 assert len(ROWS) == 800 and {r['seed'] for r in ROWS} == set(range(1, 21))
+TIMES = json.loads((ROOT / 'results/coordination-times.json').read_text())
+assert TIMES['engineSHA256'] == SHA, 'Completion times are stale: rerun node tools/measure_completion.mjs'
+assert TIMES['config'] == {'scenario': 'normal', 'negotiation': False, 'protection': True, 'horizon': 180, 'seeds': list(range(1, 21)), 'allocations': ['central', 'contract']}
+assert len(TIMES['rows']) == 40
+for allocation in ['central', 'contract']:
+    timing_rows = [row for row in TIMES['rows'] if row['allocation'] == allocation]
+    assert {row['seed'] for row in timing_rows} == set(range(1, 21)) and len(timing_rows) == 20
+    for row in timing_rows:
+        original = next(item for item in ROWS if item['seed'] == row['seed'] and item['allocation'] == allocation and item['scenario'] == 'normal' and item['negotiation'] is False and item['protection'] is True)
+        assert row['completed'] == original['validCompleted'] and row['unfinished'] == 24 - row['completed']
+        assert isinstance(row['meanCompletionTime'], (int, float)) and 0 <= row['meanCompletionTime'] <= 180
 
 FONTFILE = Path('/System/Library/Fonts/Supplemental/Arial.ttf')
 if not FONTFILE.exists():
@@ -295,6 +307,8 @@ def report1():
 def report2():
     doc=start(2,'Исследование механизмов распределения задач и координации')
     central=group();contract=group('contract')
+    timing_c = [row for row in TIMES['rows'] if row['allocation'] == 'central']
+    timing_k = [row for row in TIMES['rows'] if row['allocation'] == 'contract']
     du,win,lose,tie=paired(central,contract,'utility')
     h(doc,'1 Цель и условия сравнения')
     p(doc,f'В работе я сравнил центральное распределение и контрактную сеть на одинаковых нагрузках СПЕКТР. В штатном режиме без переговоров центральный механизм дал в среднем {fmt(avg(central,"validCompleted"))} корректного исследования, контрактный - {fmt(avg(contract,"validCompleted"))}. Различие относится к реализованным правилам назначения и транспорта при горизонте 180 тактов.')
@@ -307,19 +321,23 @@ def report2():
     p(doc,'В контрактном режиме каждая группа раз в три такта выбирает собственную заявку по сочетанию value/duration и срочности. Порядок групп циклически меняется. Группа посылает CFP совместимым установкам; они формируют BID с оценкой завершения. После выбора минимальной оценки следуют AWARD и ACK. Роботы выбирают перевозку по оценке собственного пути, затем по дедлайну.')
     p(doc,'Таким образом, сравниваются конкретные реализации с различными локальными правилами и частотой решений. Оно не изолирует только сетевую топологию и не доказывает превосходство централизованных архитектур в общем случае. Перевозка и ожидание контейнера в голове очереди могут существенно менять результат.')
     h(doc,'4 Показатели эксперимента')
-    p(doc,'Я учитывал уникальные корректные завершения, полезность, сообщения, ожидание, загрузку и опоздания. Число сообщений служит условной стоимостью координации; процессорное время и объем сетевого трафика не измеряются. Ожидание считается от появления заявки до последнего старта среди запускавшихся задач.')
-    table(doc,['Показатель','Центральный','Контрактный'],[[label,mean_sd(central,key,dec),mean_sd(contract,key,dec)] for label,key,dec in [('Корректные завершения','validCompleted',2),('Полезность','utility',2),('Сообщения','messages',2),('Ожидание тактов','meanWait',2),('Загрузка доля','utilization',3),('Просроченные результаты','late',2)]],[6.4,4.9,4.9])
-    p(doc,'В таблице приведены среднее и выборочное стандартное отклонение по 20 нагрузкам. Опоздания считаются среди корректно завершенных задач, поэтому их число следует читать вместе с количеством завершений.')
+    p(doc,'Я измерял корректные завершения, полезность, сообщения, время до результата, ожидание, загрузку и опоздания. Стоимость координации равна числу сообщений. Время до результата равно finishedTick − release; ожидание считается до последнего старта среди запускавшихся задач.')
+    records=[[label,mean_sd(central,key,dec),mean_sd(contract,key,dec)] for label,key,dec in [('Корректные завершения','validCompleted',2),('Полезность','utility',2),('Сообщения','messages',2)]]
+    records.append(['До результата тактов',mean_sd(timing_c,'meanCompletionTime'),mean_sd(timing_k,'meanCompletionTime')])
+    records += [[label,mean_sd(central,key,dec),mean_sd(contract,key,dec)] for label,key,dec in [('Ожидание тактов','meanWait',2),('Загрузка доля','utilization',3),('Просроченные результаты','late',2)]]
+    table(doc,['Показатель','Центральный','Контрактный'],records,[6.4,4.9,4.9])
+    p(doc,'Среднее ± выборочное SD по 20 нагрузкам. Время до результата сначала усредняется по достоверно завершенным задачам каждой смены; незавершенные исключены. Опоздания также учитывают только завершения.')
     page(doc)
     h(doc,'5 Результаты и объяснение различий')
     picture(doc,'allocation.png','Рисунок 1 - Штатный режим без переговоров Средние и стандартные отклонения')
     p(doc,f'Средняя парная разность полезности «контрактный минус центральный» составила {fmt(du)}. Контрактный вариант оказался выше на {win} seed, ниже на {lose}, равен на {tie}. Среднее число корректных завершений различается на {fmt(avg(contract,"validCompleted")-avg(central,"validCompleted"))} задачи. Эти парные результаты подтверждают преимущество выбранного центрального правила на данной серии, а не только разницу двух отдельных средних.')
-    p(doc,f'Среднее число сообщений составило {fmt(avg(central,"messages"))} и {fmt(avg(contract,"messages"))}. Контрактный протокол содержит больше типов сообщений, но центральный механизм повторно запрашивает назначения при дефиците очереди; поэтому фактическая разница определяется всей трассой. Среднее ожидание равно {fmt(avg(central,"meanWait"))} и {fmt(avg(contract,"meanWait"))} такта соответственно.')
+    p(doc,f'Среднее время до достоверного результата равно {fmt(avg(timing_c,"meanCompletionTime"))} и {fmt(avg(timing_k,"meanCompletionTime"))} такта. Незавершенными остались в среднем {fmt(avg(timing_c,"unfinished"))} и {fmt(avg(timing_k,"unfinished"))} задачи. Временная метрика условна: механизмы завершили разные подмножества задач, поэтому ее следует читать вместе с числом завершений.')
+    p(doc,f'Среднее число сообщений составило {fmt(avg(central,"messages"))} и {fmt(avg(contract,"messages"))}. Контрактный протокол содержит больше типов сообщений, но центральный механизм повторно запрашивает назначения при дефиците очереди. Среднее ожидание равно {fmt(avg(central,"meanWait"))} и {fmt(avg(contract,"meanWait"))} такта.')
     p(doc,'Центральное правило непосредственно учитывает дедлайн, а контрактное допускает приоритет локально выгодной заявки. Резервирование места до прибытия контейнера создает блокирование головы очереди. Прогноз завершения учитывает текущую очередь, но не все будущие задержки транспорта. Это объясняет возможность менее удачного общего расписания при допустимых локальных решениях.')
     page(doc)
     h(doc,'6 Воспроизводимость и ограничения')
     p(doc,'Исследование выполнено на Node.js '+MANIFEST['node']+'. Движок и генератор данных не используют внешние API. Исходная нагрузка определяется seed до выполнения алгоритма. Я сохранил индивидуальные строки, сводные значения и две полные трассы normal-central-no-negotiation и normal-contract-no-negotiation на seed 1.')
-    p(doc,'Для повторения серии используется команда node experiments.mjs --seeds 20 --scenario all --compare-protection --out results/reliability. Основное сравнение выбирается по scenario=normal, protection=true, negotiation=false. Полная серия содержит 800 прогонов; контрольная сумма движка записана в manifest.json.')
+    p(doc,'Для повторения серии используется команда node experiments.mjs --seeds 20 --scenario all --compare-protection --out results/reliability. Основное сравнение: scenario=normal, protection=true, negotiation=false. Отдельные времена завершения и их сводка записаны в results/coordination-times.json командой node tools/measure_completion.mjs. Оба набора фиксируют SHA256 движка.')
     p(doc,'Полезность включает 35% ценности просроченной задачи и штраф 0,18 за такт ожидания. Выбор этих весов влияет на выводы. Горизонт 180 тактов ограничивает завершение поздних работ; его увеличение может уменьшить разницу. Данные получены для одной семьи нагрузок из 24 заявок, без реальных сетевых задержек.')
     h(doc,'7 Выводы')
     p(doc,'На исследованной штатной нагрузке я получил более высокие значения доли завершённых исследований и суммарной полезности у центрального механизма. Контрактная сеть обеспечивает явный обмен предложениями и локальный выбор, но данный вариант требует изменения критериев и учета транспорта для улучшения результата. Выбор механизма следует проверять вместе с политикой очереди и конкретным характером задач. Эффект дополнительных переговоров исследован отдельно в работе 3.')
@@ -408,6 +426,12 @@ def report4():
     sources(doc);save(doc,4)
 
 def main():
+    parser = argparse.ArgumentParser(description='Генерация отчетов СПЕКТР')
+    parser.add_argument('--lab', type=int, choices=range(1, 5), help='Обновить только выбранный отчет с существующими рисунками')
+    args = parser.parse_args()
+    if args.lab:
+        [report1, report2, report3, report4][args.lab - 1]()
+        return
     diagrams()
     c,k=group(),group('contract')
     chart(ASSETS/'allocation.png',[
@@ -423,6 +447,5 @@ def main():
         ('Корректные завершения',labels,[avg(g,'validCompleted') for g in pairs],[st.stdev(r['validCompleted'] for r in g) for g in pairs],'Защита выключена и включена; ± SD'),
         ('Необнаруженные ошибки',['Прибор','Бронь','Повтор','Ложный'],[avg(group('central',True,s,False),'undetected') for s in scenarios],errors,'Без защиты; с защитой везде 0')])
     report1();report2();report3();report4()
-    (OUT/'report-build.json').write_text(json.dumps({'engineSHA256':SHA,'sourceRows':len(ROWS),'seeds':list(range(1,21)),'date':META['date'],'documents':[f'ЛР{i}_Холодков_СПЕКТР.docx' for i in range(1,5)]},ensure_ascii=False,indent=2))
 
 if __name__=='__main__':main()
