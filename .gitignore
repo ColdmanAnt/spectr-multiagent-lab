@@ -1,9 +1,5 @@
 .DS_Store
 node_modules/
-__pycache__/
-*.pyc
-.env
-.env.*
-!.env.example
-.openai/
+*.log
 work/
+Lab*/results/demo/
