@@ -1,0 +1,195 @@
+{
+  "model": "spectr-discrete-fictional-laboratory",
+  "capturedAt": "2026-11-11T08:37:57.915Z",
+  "node": "v24.22.1",
+  "hashes": {
+    "dist/engine.js": "47992e93ba0c1c03ac5b270a6388ab789e324b823c25f1090608a33164c361b7",
+    "experiments.mjs": "7ac548cddf9c379852eb02c39596a2eeeee01f87249e230684090d6aff8c72d9",
+    "tools/capture_evidence.mjs": "31696272899564e4ed4ec252a2c43fd93054c36e6bc531247b5b9d6d377a145b",
+    "results/reliability/experiment.json": "32f7fc099bb032c0ac4f4320e610a486d9d5dd1f7a7caf8fd6bad226c7db5710",
+    "results/reliability/runs.csv": "2280e1ea73a0a3911084e09d52ecd1cfe90918038a24cab223f57528bca9275e",
+    "results/reliability/summary.csv": "926d7d477119f3b7aeea23dbc6efa42b8b86e4e0860956df561ed6495bfe3361"
+  },
+  "testsExitCode": 0,
+  "experiment": {
+    "file": "reliability/experiment.json",
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "horizon": 180,
+    "scenarios": [
+      "normal",
+      "device",
+      "ghost",
+      "duplicate",
+      "misreport"
+    ],
+    "runs": 800,
+    "verifiedAgainstEngine": true
+  },
+  "metricDefinitions": {
+    "completed": "Принятые сообщения результатов, включая принятые повторы без защиты.",
+    "validCompleted": "Число уникальных действительно выполненных и достоверных исследований.",
+    "utility": "Сумма ценностей достоверных результатов (35% за просрочку) минус 0.18 за такт ожидания; переводы кредитов взаимно сокращаются.",
+    "fairness": "Индекс Джейна по долям выполненного плана трёх групп; при нулевом выполнении равен 0.",
+    "utilization": "Сумма занятых тактов трёх установок / (3 × прошедшее время), включая работу с недостоверными результатами.",
+    "meanWait": "Среднее время от публикации до последнего старта для задач, которые запускались.",
+    "violations": "Число принятых неподтверждённых, недостоверных или повторных результатов.",
+    "undetected": "Принятые недостоверные результаты плюс принятые повторы.",
+    "recoveries": "Снятые просроченные брони, переназначенные перевозки и выявленные ошибочные исследования.",
+    "coordinationCost": "Число отправленных прикладных сообщений; модель не измеряет сетевой трафик и процессорное время."
+  },
+  "traces": [
+    {
+      "file": "traces/normal-unprotected.json",
+      "config": {
+        "seed": 1,
+        "allocation": "central",
+        "negotiation": true,
+        "protection": false,
+        "scenario": "normal",
+        "horizon": 180
+      }
+    },
+    {
+      "file": "traces/normal-protected.json",
+      "config": {
+        "seed": 1,
+        "allocation": "central",
+        "negotiation": true,
+        "protection": true,
+        "scenario": "normal",
+        "horizon": 180
+      }
+    },
+    {
+      "file": "traces/device-unprotected.json",
+      "config": {
+        "seed": 1,
+        "allocation": "central",
+        "negotiation": true,
+        "protection": false,
+        "scenario": "device",
+        "horizon": 180
+      }
+    },
+    {
+      "file": "traces/device-protected.json",
+      "config": {
+        "seed": 1,
+        "allocation": "central",
+        "negotiation": true,
+        "protection": true,
+        "scenario": "device",
+        "horizon": 180
+      }
+    },
+    {
+      "file": "traces/ghost-unprotected.json",
+      "config": {
+        "seed": 1,
+        "allocation": "central",
+        "negotiation": true,
+        "protection": false,
+        "scenario": "ghost",
+        "horizon": 180
+      }
+    },
+    {
+      "file": "traces/ghost-protected.json",
+      "config": {
+        "seed": 1,
+        "allocation": "central",
+        "negotiation": true,
+        "protection": true,
+        "scenario": "ghost",
+        "horizon": 180
+      }
+    },
+    {
+      "file": "traces/duplicate-unprotected.json",
+      "config": {
+        "seed": 1,
+        "allocation": "central",
+        "negotiation": true,
+        "protection": false,
+        "scenario": "duplicate",
+        "horizon": 180
+      }
+    },
+    {
+      "file": "traces/duplicate-protected.json",
+      "config": {
+        "seed": 1,
+        "allocation": "central",
+        "negotiation": true,
+        "protection": true,
+        "scenario": "duplicate",
+        "horizon": 180
+      }
+    },
+    {
+      "file": "traces/misreport-unprotected.json",
+      "config": {
+        "seed": 1,
+        "allocation": "central",
+        "negotiation": true,
+        "protection": false,
+        "scenario": "misreport",
+        "horizon": 180
+      }
+    },
+    {
+      "file": "traces/misreport-protected.json",
+      "config": {
+        "seed": 1,
+        "allocation": "central",
+        "negotiation": true,
+        "protection": true,
+        "scenario": "misreport",
+        "horizon": 180
+      }
+    },
+    {
+      "file": "traces/normal-central-no-negotiation.json",
+      "config": {
+        "seed": 1,
+        "allocation": "central",
+        "negotiation": false,
+        "protection": true,
+        "scenario": "normal",
+        "horizon": 180
+      }
+    },
+    {
+      "file": "traces/normal-contract-no-negotiation.json",
+      "config": {
+        "seed": 1,
+        "allocation": "contract",
+        "negotiation": false,
+        "protection": true,
+        "scenario": "normal",
+        "horizon": 180
+      }
+    }
+  ]
+}
