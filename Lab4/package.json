@@ -1,0 +1,15 @@
+{
+  "name": "spectr-lab4",
+  "version": "1.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "demo": "node main.mjs demo",
+    "test": "node --test tests/analytics.test.mjs tests/engine.test.mjs tests/lab-profile.test.mjs tests/workflow.test.mjs",
+    "experiment": "node main.mjs experiment"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
